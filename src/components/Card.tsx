@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ title="titolo", desc="desc" }) => {
 
       <IonCardContent>{desc}</IonCardContent>
 
-      <IonButton fill="clear">Action 1</IonButton>
+      <IonButton fill="clear">Espandi</IonButton>
     </IonCard>
   );
 }
