@@ -14,7 +14,11 @@ const Page: React.FC = () => {
   const [isoList, setIsoList] = useState<{ nameIso: string; id: number; }[]>([]);
   const [strategyList, setStrategyList] = useState<{ nameStrategy: string; id: number; }[]>([]);
   const [principleList, setPrincipleList] = useState<{ namePrinciple: string; id: number; }[]>([]);
-
+  const [mvcList, setMVCList] = useState<{ nameMVC: string }[]>([
+    { nameMVC: 'Model' },
+    { nameMVC: 'View' },
+    { nameMVC: 'Controller' },
+  ]);
 
   const [filters, setFilters] = useState({
     selectedGdpr: [],
@@ -23,6 +27,7 @@ const Page: React.FC = () => {
     selectedStrategy: [],
     selectedPrinciple: [],
     selectedIso: [],
+    selectedMVC: []
   });
 
 
@@ -59,11 +64,7 @@ const Page: React.FC = () => {
             id: iso.id,
             code: iso.code,
             name: iso.name,
-          })) : [],
-          mvcCollocations: p.MCV_Collocation ? p.MCV_Collocation.map(mvc => ({
-            id: mvc.id,
-            name: mvc.name,
-          })) : [],
+          })) : []
         }));
         
         console.log('Patterns asciugati:', mappedPatterns);
@@ -83,6 +84,11 @@ const Page: React.FC = () => {
       const params = {
         articleID: newFilters.selectedGdpr,
         owaspID: newFilters.selectedOwasp,
+        weaknessID: newFilters.selectedWeakness,
+        strategyID: newFilters.selectedStrategy,
+        principleID: newFilters.selectedPrinciple,
+        isoID: newFilters.selectedIso,
+        // da inserire MVC
         text: newFilters.text ? [newFilters.text] : []
       };
       fetchPatterns(params);
@@ -162,7 +168,6 @@ const Page: React.FC = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-    
   }, []);
   
 
@@ -283,7 +288,6 @@ const Page: React.FC = () => {
           </IonItem>
         </IonList>
 
-        
         <IonList>
           <IonItem>
             <IonLabel>Seleziona Iso</IonLabel>
@@ -297,6 +301,25 @@ const Page: React.FC = () => {
               {isoList.map((iso) => (
                 <IonSelectOption key={iso.id} value={iso.id}>
                   {iso.nameIso}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          </IonItem>
+        </IonList>
+
+        <IonList>
+          <IonItem>
+            <IonLabel>Seleziona MVC</IonLabel>
+            <IonSelect
+              value={filters.selectedMVC}
+              multiple={true}
+              cancelText="Annulla"
+              okText="Conferma"
+              onIonChange={(e) => handleFilterChange(e, 'selectedMVC')}
+            >
+              {mvcList.map((mvc) => (
+                <IonSelectOption key={mvc.nameMVC} value={mvc.nameMVC}>
+                  {mvc.nameMVC}
                 </IonSelectOption>
               ))}
             </IonSelect>
