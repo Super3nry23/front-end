@@ -1,5 +1,23 @@
 .clearfix::after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 25vh;
+  padding-bottom: 10vh;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.CardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 2%;
+  padding-right: 2%;
+}

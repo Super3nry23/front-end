@@ -1,4 +1,4 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonSearchbar, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonList, IonItem, IonLabel } from '@ionic/react';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonSearchbar, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonCol, IonGrid, IonRow } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '../components/Card';
@@ -54,8 +54,16 @@ const Page: React.FC = () => {
             id: strategy.id,
             name: strategy.name,
           })) : [],
-          owaspIds: p.owasps ? p.owasps.map(owasp => owasp.id) : [],
-          gdprIds: p.gdprs ? p.gdprs.map(gdpr => gdpr.id) : [],
+          owasp: p.owasps ? p.owasps.map(owasp => ({
+            id: owasp.id,
+            code: owasp.code,
+            name: owasp.name,
+          })) : [],
+          gdpr: p.gdprs ? p.gdprs.map(gdpr => ({
+            id: gdpr.id,
+            code: gdpr.code,
+            name: gdpr.name,
+          })) : [],
           principles: p.principles ? p.principles.map(principle => ({
             id: principle.id,
             name: principle.name,
@@ -187,156 +195,193 @@ const Page: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen>
-
-        <IonSearchbar
-          value={searchText}
-          onIonChange={e => {
-            const text = e.detail.value || '';
-            setSearchText(text);
-            handleFilterChange({ detail: { value: text } }, 'text');
-          }}
-        ></IonSearchbar>
-        <IonList>
-          <IonItem>
-            <IonLabel>Seleziona GDPR</IonLabel>
-            <IonSelect
-              value={filters.selectedGdpr}
-              multiple={true}
-              cancelText="Annulla"
-              okText="Conferma"
-              onIonChange={(e) => handleFilterChange(e, 'selectedGdpr')}
-            >
-              {gdprList.map((gdpr) => (
-                <IonSelectOption key={gdpr.id} value={gdpr.id}>
-                  {gdpr.nameGdpr}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-        </IonList>
-
-        <IonList>
-          <IonItem>
-            <IonLabel>Seleziona Oswap</IonLabel>
-            <IonSelect
-              value={filters.selectedOwasp}
-              multiple={true}
-              cancelText="Annulla"
-              okText="Conferma"
-              onIonChange={(e) => handleFilterChange(e, 'selectedOwasp')}
-            >
-              {owaspList.map((owasp) => (
-                <IonSelectOption key={owasp.id} value={owasp.id}>
-                  {owasp.nameOwasp}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-        </IonList>
-
-        <IonList>
-          <IonItem>
-            <IonLabel>Seleziona Weakness</IonLabel>
-            <IonSelect
-              value={filters.selectedWeakness}
-              multiple={true}
-              cancelText="Annulla"
-              okText="Conferma"
-              onIonChange={(e) => handleFilterChange(e, 'selectedWeakness')}
-            >
-              {weaknessList.map((weakness) => (
-                <IonSelectOption key={weakness.id} value={weakness.id}>
-                  {weakness.nameWeakness}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-        </IonList>
-
-        <IonList>
-          <IonItem>
-            <IonLabel>Seleziona Strategy</IonLabel>
-            <IonSelect
-              value={filters.selectedStrategy}
-              multiple={true}
-              cancelText="Annulla"
-              okText="Conferma"
-              onIonChange={(e) => handleFilterChange(e, 'selectedStrategy')}
-            >
-              {strategyList.map((strategy) => (
-                <IonSelectOption key={strategy.id} value={strategy.id}>
-                  {strategy.nameStrategy}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-        </IonList>
-
-        <IonList>
-          <IonItem>
-            <IonLabel>Seleziona Principle</IonLabel>
-            <IonSelect
-              value={filters.selectedPrinciple}
-              multiple={true}
-              cancelText="Annulla"
-              okText="Conferma"
-              onIonChange={(e) => handleFilterChange(e, 'selectedPrinciple')}
-            >
-              {principleList.map((principle) => (
-                <IonSelectOption key={principle.id} value={principle.id}>
-                  {principle.namePrinciple}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-        </IonList>
-
-        <IonList>
-          <IonItem>
-            <IonLabel>Seleziona Iso</IonLabel>
-            <IonSelect
-              value={filters.selectedIso}
-              multiple={true}
-              cancelText="Annulla"
-              okText="Conferma"
-              onIonChange={(e) => handleFilterChange(e, 'selectedIso')}
-            >
-              {isoList.map((iso) => (
-                <IonSelectOption key={iso.id} value={iso.id}>
-                  {iso.nameIso}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-        </IonList>
-
-        <IonList>
-          <IonItem>
-            <IonLabel>Seleziona MVC</IonLabel>
-            <IonSelect
-              value={filters.selectedMVC}
-              multiple={true}
-              cancelText="Annulla"
-              okText="Conferma"
-              onIonChange={(e) => handleFilterChange(e, 'selectedMVC')}
-            >
-              {mvcList.map((mvc) => (
-                <IonSelectOption key={mvc.nameMVC} value={mvc.nameMVC}>
-                  {mvc.nameMVC}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-        </IonList>
+        <div className="container">
+          <IonGrid>
+            <IonRow>
+              <IonCol size="12" size-lg="6" offset-lg="3">
+                <IonSearchbar
+                  value={searchText}
+                  onIonChange={e => {
+                    const text = e.detail.value || '';
+                    setSearchText(text);
+                    handleFilterChange({ detail: { value: text } }, 'text');
+                  }}
+                  placeholder='Ricerca qui il tuo Pattern'
+                ></IonSearchbar>
+              </IonCol>
+            </IonRow>
 
 
-        {loading ? (
-          <p></p>
-        ) : (
-          patterns.map((p) => (
-            <Card key={p.id} name={p.name} desc={p.description} contex={p.contex} />
-          ))
-        )}
+            <IonRow>
+              <IonCol size="12" size-md="6">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Seleziona GDPR</IonLabel>
+                    <IonSelect
+                      value={filters.selectedGdpr}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={(e) => handleFilterChange(e, 'selectedGdpr')}
+                    >
+                      {gdprList.map((gdpr) => (
+                        <IonSelectOption key={gdpr.id} value={gdpr.id}>
+                          {gdpr.nameGdpr}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+
+              <IonCol size="12" size-md="6">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Seleziona Oswap</IonLabel>
+                    <IonSelect
+                      value={filters.selectedOwasp}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={(e) => handleFilterChange(e, 'selectedOwasp')}
+                    >
+                      {owaspList.map((owasp) => (
+                        <IonSelectOption key={owasp.id} value={owasp.id}>
+                          {owasp.nameOwasp}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+            </IonRow>
+
+            <IonRow>
+              <IonCol size="12" size-md="6">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Seleziona Weakness</IonLabel>
+                    <IonSelect
+                      value={filters.selectedWeakness}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={(e) => handleFilterChange(e, 'selectedWeakness')}
+                    >
+                      {weaknessList.map((weakness) => (
+                        <IonSelectOption key={weakness.id} value={weakness.id}>
+                          {weakness.nameWeakness}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+
+              <IonCol size="12" size-md="6">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Seleziona Strategy</IonLabel>
+                    <IonSelect
+                      value={filters.selectedStrategy}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={(e) => handleFilterChange(e, 'selectedStrategy')}
+                    >
+                      {strategyList.map((strategy) => (
+                        <IonSelectOption key={strategy.id} value={strategy.id}>
+                          {strategy.nameStrategy}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+            </IonRow>
+
+            <IonRow>
+              <IonCol size="12" size-md="4">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Seleziona Principle</IonLabel>
+                    <IonSelect
+                      value={filters.selectedPrinciple}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={(e) => handleFilterChange(e, 'selectedPrinciple')}
+                    >
+                      {principleList.map((principle) => (
+                        <IonSelectOption key={principle.id} value={principle.id}>
+                          {principle.namePrinciple}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+
+              <IonCol size="12" size-md="4">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Seleziona Iso</IonLabel>
+                    <IonSelect
+                      value={filters.selectedIso}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={(e) => handleFilterChange(e, 'selectedIso')}
+                    >
+                      {isoList.map((iso) => (
+                        <IonSelectOption key={iso.id} value={iso.id}>
+                          {iso.nameIso}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+
+              <IonCol size="12" size-md="4">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Seleziona MVC</IonLabel>
+                    <IonSelect
+                      value={filters.selectedMVC}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={(e) => handleFilterChange(e, 'selectedMVC')}
+                    >
+                      {mvcList.map((mvc) => (
+                        <IonSelectOption key={mvc.nameMVC} value={mvc.nameMVC}>
+                          {mvc.nameMVC}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </div>
+
+        <div className="CardContainer">
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <IonGrid>
+              <IonRow>
+                {patterns.map((p, index) => (
+                  <IonCol size="12" size-md="6" size-lg="6" key={p.id}>
+                    <Card name={p.name} desc={p.description} contex={p.contex} weaknesses={p.weaknesses} principle={p.principles} mvcCollocation={p.mvc} iso={p.isos} gdpr={p.gdpr} owasp={p.owasp} />
+                  </IonCol>
+                ))}
+              </IonRow>
+            </IonGrid>
+          )}
+        </div>
       </IonContent>
     </IonPage>
   );
