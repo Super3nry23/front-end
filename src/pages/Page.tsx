@@ -52,8 +52,8 @@ const Page: React.FC = () => {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          filteredPatterns.map((p, index) => (
-            <Card key={index} name={p.name} desc={p.desc} contex={p.contex} />
+          filteredPatterns.map((p) => (
+            <Card key={p.id} name={p.name} desc={p.desc} contex={p.contex} />
           ))
         )}
       </IonContent>

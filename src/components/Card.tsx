@@ -24,16 +24,12 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
         <IonCardContent>{contex}</IonCardContent>
       </IonItemDivider>
 
-      <IonGrid fixed={true}>
-        <IonRow class="ion-align-items-center">
-          <IonCol>
-            <IonButton size="small" fill="clear">
-              Espandi
-              <IonIcon slot="end" icon={chevronDownOutline}></IonIcon>
-            </IonButton>
-          </IonCol>
-        </IonRow>
-      </IonGrid >
+
+      <IonButton size="small" fill="clear">
+        Espandi
+        <IonIcon slot="end" icon={chevronDownOutline}></IonIcon>
+      </IonButton>
+
     </IonCard>
 
   );
