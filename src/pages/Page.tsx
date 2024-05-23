@@ -7,25 +7,66 @@ import './Page.css';
 const Page: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [patterns, setPatterns] = useState<any[]>([]);
+
   const [gdprList, setGdprList] = useState<{ nameGdpr: string; id: number; }[]>([]);
   const [owaspList, setOwaspList] = useState<{ nameOwasp: string; id: number; }[]>([]);
-  const [selectedGdpr, setSelectedGdpr] = useState<number[]>([]);
-  const [selectedOwasp, setSelectedOwasp] = useState<number[]>([]);
+  const [weaknessList, setWeaknessList] = useState<{ nameWeakness: string; id: number; }[]>([]);
+  const [isoList, setIsoList] = useState<{ nameIso: string; id: number; }[]>([]);
+  const [strategyList, setStrategyList] = useState<{ nameStrategy: string; id: number; }[]>([]);
+  const [principleList, setPrincipleList] = useState<{ namePrinciple: string; id: number; }[]>([]);
+
+
+  const [filters, setFilters] = useState({
+    selectedGdpr: [],
+    selectedOwasp: [],
+    selectedWeakness: [],
+    selectedStrategy: [],
+    selectedPrinciple: [],
+    selectedIso: [],
+  });
+
+
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axios.get('http://localhost:1337/api/patterns?populate=*')
+  const fetchPatterns = (params: any) => {
+    setLoading(true);
+    let a = { param: params };
+    console.log(a);
+    axios.post('http://localhost:1337/api/patterns/src', a)
       .then((response) => {
-        console.log('Patterns:', response.data.data);
-        const mappedPatterns = response.data.data.map((p: any) => ({
+        console.log('Patterns bagnati:', response.data);
+        const mappedPatterns = response.data.map((p) => ({
           id: p.id,
-          name: p.attributes.name,
-          desc: p.attributes.description,
-          contex: p.attributes.contex,
-          gdprIds: p.attributes.gdprs.data.map((gdpr: any) => gdpr.id), // Accedi correttamente agli ID di ogni GDPR
-          owaspIds: p.attributes.owasps.data.map((owasp: any) => owasp.id)
+          name: p.name,
+          description: p.description,
+          contex: p.contex,
+          weaknesses: p.weaknesses ? p.weaknesses.map(weakness => ({
+            id: weakness.id,
+            code: weakness.code,
+            name: weakness.name,
+          })) : [],
+          strategies: p.strategies ? p.strategies.map(strategy => ({
+            id: strategy.id,
+            name: strategy.name,
+          })) : [],
+          owaspIds: p.owasps ? p.owasps.map(owasp => owasp.id) : [],
+          gdprIds: p.gdprs ? p.gdprs.map(gdpr => gdpr.id) : [],
+          principles: p.principles ? p.principles.map(principle => ({
+            id: principle.id,
+            name: principle.name,
+          })) : [],
+          isos: p.isos ? p.isos.map(iso => ({
+            id: iso.id,
+            code: iso.code,
+            name: iso.name,
+          })) : [],
+          mvcCollocations: p.MCV_Collocation ? p.MCV_Collocation.map(mvc => ({
+            id: mvc.id,
+            name: mvc.name,
+          })) : [],
         }));
-        console.log('MappedPattern:', mappedPatterns);
+        
+        console.log('Patterns asciugati:', mappedPatterns);
         setPatterns(mappedPatterns);
         setLoading(false);
       })
@@ -33,7 +74,23 @@ const Page: React.FC = () => {
         console.error('Error:', error);
         setLoading(false);
       });
+  };
 
+  const handleFilterChange = (e, filterType) => {
+    const selectedValues = e.detail.value;
+    setFilters((prevFilters) => {
+      const newFilters = { ...prevFilters, [filterType]: selectedValues };
+      const params = {
+        articleID: newFilters.selectedGdpr,
+        owaspID: newFilters.selectedOwasp,
+        text: newFilters.text ? [newFilters.text] : []
+      };
+      fetchPatterns(params);
+      return newFilters;
+    });
+  };
+
+  useEffect(() => {
     axios.get('http://localhost:1337/api/gdprs')
       .then((response) => {
         const mappedGdpr = response.data.data.map((g: any) => ({
@@ -52,22 +109,62 @@ const Page: React.FC = () => {
           nameOwasp: o.attributes.name,
           id: o.id
         }));
-        console.log('oswaps:', mappedOwasp);
         setOwaspList(mappedOwasp);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
+    
+    axios.get('http://localhost:1337/api/weaknesses')
+      .then((response) => {
+        const mappedWeakness = response.data.data.map((w: any) => ({
+          nameWeakness: w.attributes.name,
+          id: w.id
+        }));
+        setWeaknessList(mappedWeakness);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
 
+      axios.get('http://localhost:1337/api/strategies')
+      .then((response) => {
+        const mappedStrayegy = response.data.data.map((w: any) => ({
+          nameStrategy: w.attributes.name,
+          id: w.id
+        }));
+        setStrategyList(mappedStrayegy);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
 
+      axios.get('http://localhost:1337/api/principles')
+      .then((response) => {
+        const mappedPrinciples = response.data.data.map((w: any) => ({
+          namePrinciple: w.attributes.name,
+          id: w.id
+        }));
+        setPrincipleList(mappedPrinciples);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+      axios.get('http://localhost:1337/api/isos')
+      .then((response) => {
+        const mappedIso = response.data.data.map((w: any) => ({
+          nameIso: w.attributes.name,
+          id: w.id
+        }));
+        setIsoList(mappedIso);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    
   }, []);
-
-  const filteredPatterns = patterns.filter(p =>
-    p.name.toLowerCase().includes(searchText.toLowerCase()) &&
-    selectedGdpr.every(selectedId => p.gdprIds.includes(selectedId)) &&
-    selectedOwasp.every(selectedId => p.owaspIds.includes(selectedId))
-  );
-
+  
 
 
   return (
@@ -82,20 +179,24 @@ const Page: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen>
-        <IonSearchbar
-          value={searchText}
-          onIonInput={e => setSearchText(e.detail.value || '')}
-        ></IonSearchbar>
 
+      <IonSearchbar
+  value={searchText}
+  onIonChange={e => {
+    const text = e.detail.value || '';
+    setSearchText(text);
+    handleFilterChange({detail: {value: text}}, 'text');
+  }}
+></IonSearchbar>
         <IonList>
           <IonItem>
             <IonLabel>Seleziona GDPR</IonLabel>
             <IonSelect
-              value={selectedGdpr}
+              value={filters.selectedGdpr}
               multiple={true}
               cancelText="Annulla"
               okText="Conferma"
-              onIonChange={(e) => setSelectedGdpr(e.detail.value)}
+              onIonChange={(e) => handleFilterChange(e, 'selectedGdpr')}
             >
               {gdprList.map((gdpr) => (
                 <IonSelectOption key={gdpr.id} value={gdpr.id}>
@@ -110,11 +211,11 @@ const Page: React.FC = () => {
           <IonItem>
             <IonLabel>Seleziona Oswap</IonLabel>
             <IonSelect
-              value={selectedOwasp}
+              value={filters.selectedOwasp}
               multiple={true}
               cancelText="Annulla"
               okText="Conferma"
-              onIonChange={(e) => setSelectedOwasp(e.detail.value)}
+              onIonChange={(e) => handleFilterChange(e, 'selectedOwasp')}
             >
               {owaspList.map((owasp) => (
                 <IonSelectOption key={owasp.id} value={owasp.id}>
@@ -127,28 +228,87 @@ const Page: React.FC = () => {
 
         <IonList>
           <IonItem>
-            <IonLabel>Seleziona GDPR</IonLabel>
+            <IonLabel>Seleziona Weakness</IonLabel>
             <IonSelect
-              value={selectedGdpr}
+              value={filters.selectedWeakness}
               multiple={true}
               cancelText="Annulla"
               okText="Conferma"
-              onIonChange={(e) => setSelectedGdpr(e.detail.value)}
+              onIonChange={(e) => handleFilterChange(e, 'selectedWeakness')}
             >
-              {gdprList.map((gdpr) => (
-                <IonSelectOption key={gdpr.id} value={gdpr.id}>
-                  {gdpr.nameGdpr}
+              {weaknessList.map((weakness) => (
+                <IonSelectOption key={weakness.id} value={weakness.id}>
+                  {weakness.nameWeakness}
                 </IonSelectOption>
               ))}
             </IonSelect>
           </IonItem>
         </IonList>
 
+        <IonList>
+          <IonItem>
+            <IonLabel>Seleziona Strategy</IonLabel>
+            <IonSelect
+              value={filters.selectedStrategy}
+              multiple={true}
+              cancelText="Annulla"
+              okText="Conferma"
+              onIonChange={(e) => handleFilterChange(e, 'selectedStrategy')}
+            >
+              {strategyList.map((strategy) => (
+                <IonSelectOption key={strategy.id} value={strategy.id}>
+                  {strategy.nameStrategy}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          </IonItem>
+        </IonList>
+
+        <IonList>
+          <IonItem>
+            <IonLabel>Seleziona Principle</IonLabel>
+            <IonSelect
+              value={filters.selectedPrinciple}
+              multiple={true}
+              cancelText="Annulla"
+              okText="Conferma"
+              onIonChange={(e) => handleFilterChange(e, 'selectedPrinciple')}
+            >
+              {principleList.map((principle) => (
+                <IonSelectOption key={principle.id} value={principle.id}>
+                  {principle.namePrinciple}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          </IonItem>
+        </IonList>
+
+        
+        <IonList>
+          <IonItem>
+            <IonLabel>Seleziona Iso</IonLabel>
+            <IonSelect
+              value={filters.selectedIso}
+              multiple={true}
+              cancelText="Annulla"
+              okText="Conferma"
+              onIonChange={(e) => handleFilterChange(e, 'selectedIso')}
+            >
+              {isoList.map((iso) => (
+                <IonSelectOption key={iso.id} value={iso.id}>
+                  {iso.nameIso}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          </IonItem>
+        </IonList>
+
+
         {loading ? (
-          <p>Loading...</p>
+          <p></p>
         ) : (
-          filteredPatterns.map((p) => (
-            <Card key={p.id} name={p.name} desc={p.desc} contex={p.contex} />
+          patterns.map((p) => (
+            <Card key={p.id} name={p.name} desc={p.description} contex={p.contex} />
           ))
         )}
       </IonContent>

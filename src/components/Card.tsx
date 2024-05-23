@@ -31,6 +31,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
       </IonButton>
 
     </IonCard>
+    
 
   );
 }
