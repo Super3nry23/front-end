@@ -22,7 +22,8 @@ const Page: React.FC = () => {
           name: p.attributes.name,
           desc: p.attributes.description,
           contex: p.attributes.contex,
-          gdprIds: p.attributes.gdprs.data.map((gdpr: any) => gdpr.id) // Accedi correttamente agli ID di ogni GDPR
+          gdprIds: p.attributes.gdprs.data.map((gdpr: any) => gdpr.id), // Accedi correttamente agli ID di ogni GDPR
+          owaspIds: p.attributes.owasps.data.map((owasp: any) => owasp.id)
         }));
         console.log('MappedPattern:', mappedPatterns);
         setPatterns(mappedPatterns);
@@ -45,36 +46,29 @@ const Page: React.FC = () => {
         console.error('Error:', error);
       });
 
-      axios.get('http://localhost:1337/api/owasps')
+    axios.get('http://localhost:1337/api/owasps')
       .then((response) => {
         const mappedOwasp = response.data.data.map((o: any) => ({
           nameOwasp: o.attributes.name,
           id: o.id
         }));
-        console.log('cane:',mappedOwasp);
+        console.log('oswaps:', mappedOwasp);
         setOwaspList(mappedOwasp);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
 
-      
 
-      
   }, []);
-
-  
 
   const filteredPatterns = patterns.filter(p =>
     p.name.toLowerCase().includes(searchText.toLowerCase()) &&
-    selectedGdpr.every(selectedId => p.gdprIds.includes(selectedId))&&
-    selectedOwasp.every(selectedId => p.owaspIds.includes(selectedId)) 
-
+    selectedGdpr.every(selectedId => p.gdprIds.includes(selectedId)) &&
+    selectedOwasp.every(selectedId => p.owaspIds.includes(selectedId))
   );
 
-  
 
-  
 
   return (
     <IonPage>
