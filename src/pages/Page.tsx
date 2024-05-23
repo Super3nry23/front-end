@@ -1,24 +1,24 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
-import { useParams } from 'react-router';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '../components/Card';
 import './Page.css';
 
 const Page: React.FC = () => {
-
-  const { name } = useParams<{ name: string; }>();
-
-  const [patterns, setPatterns] = useState<{ title: string; desc: string; }[]>([]);
   const [searchText, setSearchText] = useState<string>('');
+  const [patterns, setPatterns] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get('http://localhost:1337/api/patterns')
       .then((response) => {
-        const mappedPatterns = response.data.data.map(p => ({
-          title: p.attributes.name,
-          desc: p.attributes.description
+        console.log(response.data);
+
+        const mappedPatterns = response.data.data.map((p: { id: number; attributes: { name: string; description: string; contex: string; }; }) => ({
+          id: p.id,
+          name: p.attributes.name,
+          desc: p.attributes.description,
+          contex: p.attributes.contex
         }));
         setPatterns(mappedPatterns);
         setLoading(false); // Modificato da true a false
@@ -30,7 +30,7 @@ const Page: React.FC = () => {
   }, []);
 
   const filteredPatterns = patterns.filter(p =>
-    p.title.toLowerCase().includes(searchText.toLowerCase())
+    p.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -40,12 +40,12 @@ const Page: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>{name}</IonTitle>
+          <IonTitle>Cani Sudati</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen>
-        <IonSearchbar 
+        <IonSearchbar
           value={searchText}
           onIonInput={e => setSearchText((e.target as HTMLInputElement).value)}
         ></IonSearchbar>
@@ -53,7 +53,7 @@ const Page: React.FC = () => {
           <p>Loading...</p>
         ) : (
           filteredPatterns.map((p, index) => (
-            <Card key={index} title={p.title} desc={p.desc} />
+            <Card key={index} name={p.name} desc={p.desc} contex={p.contex} />
           ))
         )}
       </IonContent>

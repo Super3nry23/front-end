@@ -1,22 +1,41 @@
 import React from 'react';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonItemDivider, IonItemGroup, IonRow } from '@ionic/react';
+import './Card.css'
+import { chevronDownOutline } from 'ionicons/icons';
 
 interface CardProps {
-    title: string;
-    desc: string;
-  }
+  name: string;
+  desc: string;
+  contex: string;
+}
 
-const Card: React.FC<CardProps> = ({ title="titolo", desc="desc" }) => {
+const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "contex" }) => {
   return (
     <IonCard>
       <IonCardHeader>
-        <IonCardTitle>{title}</IonCardTitle>
+        <IonCardTitle>{name}</IonCardTitle>
       </IonCardHeader>
 
-      <IonCardContent>{desc}</IonCardContent>
 
-      <IonButton fill="clear">Espandi</IonButton>
+      <IonItemDivider>
+        <IonCardContent>{desc}</IonCardContent>
+      </IonItemDivider>
+      <IonItemDivider>
+        <IonCardContent>{contex}</IonCardContent>
+      </IonItemDivider>
+
+      <IonGrid fixed={true}>
+        <IonRow class="ion-align-items-center">
+          <IonCol>
+            <IonButton size="small" fill="clear">
+              Espandi
+              <IonIcon slot="end" icon={chevronDownOutline}></IonIcon>
+            </IonButton>
+          </IonCol>
+        </IonRow>
+      </IonGrid >
     </IonCard>
+
   );
 }
 export default Card;
