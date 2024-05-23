@@ -64,9 +64,12 @@ const Page: React.FC = () => {
             id: iso.id,
             code: iso.code,
             name: iso.name,
-          })) : []
+          })) : [],
+          mvc: p.MCV_Collocation ? p.MCV_Collocation.map(mvc => ({
+            name: mvc.name,
+          })) : [],
         }));
-        
+
         console.log('Patterns asciugati:', mappedPatterns);
         setPatterns(mappedPatterns);
         setLoading(false);
@@ -88,7 +91,7 @@ const Page: React.FC = () => {
         strategyID: newFilters.selectedStrategy,
         principleID: newFilters.selectedPrinciple,
         isoID: newFilters.selectedIso,
-        // da inserire MVC
+        mvc: newFilters.selectedMVC,
         text: newFilters.text ? [newFilters.text] : []
       };
       fetchPatterns(params);
@@ -120,7 +123,7 @@ const Page: React.FC = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-    
+
     axios.get('http://localhost:1337/api/weaknesses')
       .then((response) => {
         const mappedWeakness = response.data.data.map((w: any) => ({
@@ -133,7 +136,7 @@ const Page: React.FC = () => {
         console.error('Error:', error);
       });
 
-      axios.get('http://localhost:1337/api/strategies')
+    axios.get('http://localhost:1337/api/strategies')
       .then((response) => {
         const mappedStrayegy = response.data.data.map((w: any) => ({
           nameStrategy: w.attributes.name,
@@ -145,7 +148,7 @@ const Page: React.FC = () => {
         console.error('Error:', error);
       });
 
-      axios.get('http://localhost:1337/api/principles')
+    axios.get('http://localhost:1337/api/principles')
       .then((response) => {
         const mappedPrinciples = response.data.data.map((w: any) => ({
           namePrinciple: w.attributes.name,
@@ -157,7 +160,7 @@ const Page: React.FC = () => {
         console.error('Error:', error);
       });
 
-      axios.get('http://localhost:1337/api/isos')
+    axios.get('http://localhost:1337/api/isos')
       .then((response) => {
         const mappedIso = response.data.data.map((w: any) => ({
           nameIso: w.attributes.name,
@@ -169,7 +172,7 @@ const Page: React.FC = () => {
         console.error('Error:', error);
       });
   }, []);
-  
+
 
 
   return (
@@ -185,14 +188,14 @@ const Page: React.FC = () => {
 
       <IonContent fullscreen>
 
-      <IonSearchbar
-  value={searchText}
-  onIonChange={e => {
-    const text = e.detail.value || '';
-    setSearchText(text);
-    handleFilterChange({detail: {value: text}}, 'text');
-  }}
-></IonSearchbar>
+        <IonSearchbar
+          value={searchText}
+          onIonChange={e => {
+            const text = e.detail.value || '';
+            setSearchText(text);
+            handleFilterChange({ detail: { value: text } }, 'text');
+          }}
+        ></IonSearchbar>
         <IonList>
           <IonItem>
             <IonLabel>Seleziona GDPR</IonLabel>
