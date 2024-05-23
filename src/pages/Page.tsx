@@ -1,20 +1,16 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
-import ExploreContainer from '../components/ExploreContainer';
-import Card from '../components/Card';
-//API bzz
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-
+import Card from '../components/Card';
 import './Page.css';
-
 
 const Page: React.FC = () => {
 
   const { name } = useParams<{ name: string; }>();
 
-  const [patterns, setPatterns] = useState([]);
+  const [patterns, setPatterns] = useState<{ title: string; desc: string; }[]>([]);
+  const [searchText, setSearchText] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,13 +21,17 @@ const Page: React.FC = () => {
           desc: p.attributes.description
         }));
         setPatterns(mappedPatterns);
-        setLoading(true);
-        console.log(patterns);
+        setLoading(false); // Modificato da true a false
       })
       .catch((error) => {
         console.error('Error:', error);
+        setLoading(false); // Assicurati di impostare loading su false in caso di errore
       });
   }, []);
+
+  const filteredPatterns = patterns.filter(p =>
+    p.title.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <IonPage>
@@ -45,9 +45,17 @@ const Page: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen>
-        {patterns.map((p) => (
-          <Card key={p.id} title={p.title} desc={p.desc} />
-        ))}
+        <IonSearchbar 
+          value={searchText}
+          onIonInput={e => setSearchText((e.target as HTMLInputElement).value)}
+        ></IonSearchbar>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          filteredPatterns.map((p, index) => (
+            <Card key={index} title={p.title} desc={p.desc} />
+          ))
+        )}
       </IonContent>
     </IonPage>
   );
