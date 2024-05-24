@@ -1,10 +1,14 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonSearchbar, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonCol, IonGrid, IonRow } from '@ionic/react';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonSearchbar, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonList, IonItem, IonLabel, IonCol, IonGrid, IonRow, IonButton, IonRouterLink } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '../components/Card';
 import './Page.css';
+import Masonry from 'react-masonry-css';
+import { useHistory } from 'react-router-dom';
 
 const Page: React.FC = () => {
+  const history = useHistory();
+
   const [searchText, setSearchText] = useState<string>('');
   const [patterns, setPatterns] = useState<any[]>([]);
 
@@ -36,10 +40,8 @@ const Page: React.FC = () => {
   const fetchPatterns = (params: any) => {
     setLoading(true);
     let a = { param: params };
-    console.log(a);
     axios.post('http://localhost:1337/api/patterns/src', a)
       .then((response) => {
-        console.log('Patterns bagnati:', response.data);
         const mappedPatterns = response.data.map((p) => ({
           id: p.id,
           name: p.name,
@@ -78,7 +80,6 @@ const Page: React.FC = () => {
           })) : [],
         }));
 
-        console.log('Patterns asciugati:', mappedPatterns);
         setPatterns(mappedPatterns);
         setLoading(false);
       })
@@ -181,7 +182,12 @@ const Page: React.FC = () => {
       });
   }, []);
 
-
+  const breakpointColumnsObj = {
+    default: 2,  // Numero di colonne per default
+    900: 1,     // Numero di colonne per schermi più grandi di 900px
+    700: 1,      // Numero di colonne per schermi più grandi di 700px
+    500: 1       // Numero di colonne per schermi più grandi di 500px
+  };
 
   return (
     <IonPage>
@@ -190,11 +196,34 @@ const Page: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Cani Sudati</IonTitle>
+          <IonTitle>Pattern Research</IonTitle>
+          <IonButtons slot="end">
+            <IonRouterLink href='/strategy'>Strategy Research</IonRouterLink>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '15vh',
+          padding: '50px'
+        }}>
+          <img
+            src={patterns.length > 0 ? '../../resources/openbook.jpg' : '../../resources/closedbook.jpg'}
+            alt="book"
+            style={{
+              maxWidth: '250px',
+              maxHeight: '250px',
+              objectFit: 'contain',
+              margin: 'auto',
+              borderRadius: '10px'
+            }}
+          />
+        </div>
+
         <div className="container">
           <IonGrid>
             <IonRow>
@@ -367,23 +396,25 @@ const Page: React.FC = () => {
           </IonGrid>
         </div>
 
-        <div className="CardContainer">
+        <div className='CardContainer'>
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <IonGrid>
-              <IonRow>
-                {patterns.map((p, index) => (
-                  <IonCol size="12" size-md="6" size-lg="6" key={p.id}>
-                    <Card name={p.name} desc={p.description} contex={p.contex} weaknesses={p.weaknesses} principle={p.principles} mvcCollocation={p.mvc} iso={p.isos} gdpr={p.gdpr} owasp={p.owasp} />
-                  </IonCol>
-                ))}
-              </IonRow>
-            </IonGrid>
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="masonry-grid"
+              columnClassName="my-masonry-grid_column"
+            >
+              {patterns.map((p) => (
+                <div key={p.id}>
+                  <Card name={p.name} desc={p.description} contex={p.contex} weaknesses={p.weaknesses} principle={p.principles} mvcCollocation={p.mvc} iso={p.isos} gdpr={p.gdpr} owasp={p.owasp} />
+                </div>
+              ))}
+            </Masonry>
           )}
         </div>
       </IonContent>
-    </IonPage>
+    </IonPage >
   );
 };
 

@@ -21,3 +21,9 @@
   padding-left: 2%;
   padding-right: 2%;
 }
+
+.masonry-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

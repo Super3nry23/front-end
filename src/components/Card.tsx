@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonGrid, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonRow } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonGrid, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import './Card.css'
-import { chevronDownOutline } from 'ionicons/icons';
+import { alertCircleOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
 
 interface CardProps {
   name: string;
@@ -35,10 +35,14 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
 
       {showDetails && (
         <IonList>
-          <IonList lines="none">
-            Weaknesses: {weaknesses.map((weakness, index) => (
+          <IonList>
+            <IonListHeader>
+              <IonLabel><h3>Weaknesses:</h3></IonLabel>
+            </IonListHeader>
+            {weaknesses.map((weakness, index) => (
               <IonItem key={index}>
-                <IonLabel>{weakness.name}</IonLabel>
+                <IonIcon icon={alertCircleOutline} slot="start" color="danger" />
+                <IonChip color="danger">{weakness.name}</IonChip>
               </IonItem>
             ))}
           </IonList>
@@ -76,9 +80,9 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
         </IonList>
       )}
 
-      <IonButton size="small" fill="clear" onClick={() => setShowDetails(!showDetails)}>
-        {showDetails ? 'Nascondi' : 'Espandi'}
-        <IonIcon slot="end" icon={chevronDownOutline}></IonIcon>
+      <IonButton expand="full" onClick={() => setShowDetails(!showDetails)}>
+        {showDetails ? 'Nascondi dettagli' : 'Mostra dettagli'}
+        <IonIcon slot="end" icon={showDetails ? chevronUpOutline : chevronDownOutline}></IonIcon>
       </IonButton>
     </IonCard>
   );
