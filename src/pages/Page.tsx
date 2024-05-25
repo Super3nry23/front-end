@@ -18,7 +18,7 @@ const Page: React.FC = () => {
   const [isoList, setIsoList] = useState<{ nameIso: string; id: number; }[]>([]);
   const [strategyList, setStrategyList] = useState<{ nameStrategy: string; id: number; }[]>([]);
   const [principleList, setPrincipleList] = useState<{ namePrinciple: string; id: number; }[]>([]);
-  const [mvcList, setMVCList] = useState<{ nameMVC: string }[]>([
+  const [mvcList] = useState<{ nameMVC: string }[]>([
     { nameMVC: 'Model' },
     { nameMVC: 'View' },
     { nameMVC: 'Controller' },
@@ -42,6 +42,7 @@ const Page: React.FC = () => {
     let a = { param: params };
     axios.post('http://localhost:1337/api/patterns/src', a)
       .then((response) => {
+        //console.log(response.data);
         const mappedPatterns = response.data.map((p) => ({
           id: p.id,
           name: p.name,
@@ -75,11 +76,16 @@ const Page: React.FC = () => {
             code: iso.code,
             name: iso.name,
           })) : [],
+          examples: p.Example ? p.Example.map(ex => ({
+            id: ex.id,
+            title: ex.title,
+            description: ex.description,
+          })) : [],
           mvc: p.MCV_Collocation ? p.MCV_Collocation.map(mvc => ({
             name: mvc.name,
           })) : [],
         }));
-
+        //console.log('Mapped', mappedPatterns);
         setPatterns(mappedPatterns);
         setLoading(false);
       })
@@ -407,7 +413,7 @@ const Page: React.FC = () => {
             >
               {patterns.map((p) => (
                 <div key={p.id}>
-                  <Card name={p.name} desc={p.description} contex={p.contex} weaknesses={p.weaknesses} principle={p.principles} mvcCollocation={p.mvc} iso={p.isos} gdpr={p.gdpr} owasp={p.owasp} />
+                  <Card name={p.name} desc={p.description} contex={p.contex} weaknesses={p.weaknesses} principles={p.principles} mvcCollocation={p.mvc} isos={p.isos} gdprs={p.gdpr} owasps={p.owasp} strategies={p.strategies} examples={p.examples} />
                 </div>
               ))}
             </Masonry>

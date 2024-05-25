@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonGrid, IonIcon, IonItem, IonItemDivider, IonItemGroup, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import './Card.css'
 import { alertCircleOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
 
 interface CardProps {
   name: string;
-  desc: string;
-  contex: string;
-  weaknesses: string[];
-  principle: string[];
-  mvcCollocation: string[];
-  iso: string[];
-  gdpr: string[];
-  owasp: string[];
+  desc?: string;
+  contex?: string;
+  weaknesses?: string[];
+  principles?: string[];
+  strategies?: string[];
+  mvcCollocation?: string[];
+  isos?: string[];
+  gdprs?: string[];
+  owasps?: string[];
+  examples?: string[];
 }
 
-const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "contex", weaknesses = [], principle = [], mvcCollocation = [], iso = [], gdpr = [], owasp = [] }) => {
+const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "contex", weaknesses = [], principles = [], strategies = [], mvcCollocation = [], isos = [], gdprs = [], owasps = [], examples = [] }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <IonCard>
+    <IonCard style={{ marginBottom: '50px', borderRadius: '15px' }}>
       <IonCardHeader>
         <IonCardTitle class="ion-text-center">{name}</IonCardTitle>
       </IonCardHeader>
@@ -49,8 +51,14 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
 
           <IonItem>
             Principle:
-            {principle.map((principle, index) => (
+            {principles.map((principle, index) => (
               <IonChip key={index} color="primary">{principle.name}</IonChip>
+            ))}
+          </IonItem>
+          <IonItem>
+            Strategies:
+            {strategies.map((strategy, index) => (
+              <IonChip key={index} style={{ color: '#fa026e', background: '#fa026e40' }}>{strategy.name}</IonChip>
             ))}
           </IonItem>
           <IonItem>
@@ -61,29 +69,48 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
           </IonItem>
           <IonItem>
             ISO:
-            {iso.map((iso, index) => (
+            {isos.map((iso, index) => (
               <IonChip key={index} color="secondary">{iso.name} ({iso.code})</IonChip>
             ))}
           </IonItem>
           <IonItem>
             GDPR:
-            {gdpr.map((gdpr, index) => (
+            {gdprs.map((gdpr, index) => (
               <IonChip key={index} color="tertiary">{gdpr.name} ({gdpr.code})</IonChip>
             ))}
           </IonItem>
           <IonItem>
             OWASP:
-            {owasp.map((owasp, index) => (
+            {owasps.map((owasp, index) => (
               <IonChip key={index} color="warning">{owasp.name} ({owasp.code})</IonChip>
             ))}
           </IonItem>
+
+          <IonList>
+            <IonListHeader>
+              <IonLabel><h3>Examples:</h3></IonLabel>
+            </IonListHeader>
+            {examples.map((ex, index) => (
+              <IonItem key={index}>
+                <IonChip color="dark">{ex.description}</IonChip>
+              </IonItem>
+            ))}
+          </IonList>
         </IonList>
       )}
 
-      <IonButton expand="full" onClick={() => setShowDetails(!showDetails)}>
-        {showDetails ? 'Nascondi dettagli' : 'Mostra dettagli'}
-        <IonIcon slot="end" icon={showDetails ? chevronUpOutline : chevronDownOutline}></IonIcon>
-      </IonButton>
+      <IonRow className="ion-justify-content-center ion-align-items-center">
+        <IonCol size="10">
+          <button
+            onClick={() => setShowDetails(!showDetails)}
+            className="custom-button"
+          >
+            {showDetails ? 'Nascondi dettagli' : 'Mostra dettagli'}
+            <IonIcon slot="end" style={{ fontSize: '28px' }} icon={showDetails ? chevronUpOutline : chevronDownOutline} />
+          </button>
+        </IonCol>
+      </IonRow>
+
     </IonCard>
   );
 };
