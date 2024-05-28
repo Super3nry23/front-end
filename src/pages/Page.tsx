@@ -25,13 +25,14 @@ const Page: React.FC = () => {
   ]);
 
   const [filters, setFilters] = useState({
-    selectedGdpr: [],
-    selectedOwasp: [],
-    selectedWeakness: [],
-    selectedStrategy: [],
-    selectedPrinciple: [],
-    selectedIso: [],
-    selectedMVC: []
+    articleID: [],
+    owaspID: [],
+    weaknessID: [],
+    strategyID: [],
+    principleID: [],
+    isoID: [],
+    mvc: [],
+    text: []
   });
 
 
@@ -95,23 +96,16 @@ const Page: React.FC = () => {
       });
   };
 
-  const handleFilterChange = (e, filterType) => {
+  function handleFilterChange(e, filterType:string){
     const selectedValues = e.detail.value;
-    setFilters((prevFilters) => {
-      const newFilters = { ...prevFilters, [filterType]: selectedValues };
-      const params = {
-        articleID: newFilters.selectedGdpr,
-        owaspID: newFilters.selectedOwasp,
-        weaknessID: newFilters.selectedWeakness,
-        strategyID: newFilters.selectedStrategy,
-        principleID: newFilters.selectedPrinciple,
-        isoID: newFilters.selectedIso,
-        mvc: newFilters.selectedMVC,
-        text: newFilters.text ? [newFilters.text] : []
-      };
-      fetchPatterns(params);
-      return newFilters;
-    });
+    let newFilter = filters;
+    if(filterType != "text"){
+      newFilter[filterType] = selectedValues;
+    }else{
+      newFilter[filterType] = selectedValues ? [selectedValues] : [] 
+    }
+    setFilters(newFilter);
+    fetchPatterns(filters);
   };
 
   useEffect(() => {
@@ -239,7 +233,7 @@ const Page: React.FC = () => {
                   onIonChange={e => {
                     const text = e.detail.value || '';
                     setSearchText(text);
-                    handleFilterChange({ detail: { value: text } }, 'text');
+                    handleFilterChange(e, 'text');
                   }}
                   placeholder='Ricerca qui il tuo Pattern'
                 ></IonSearchbar>
@@ -253,11 +247,11 @@ const Page: React.FC = () => {
                   <IonItem>
                     <IonLabel>Seleziona GDPR</IonLabel>
                     <IonSelect
-                      value={filters.selectedGdpr}
+                      value={filters.articleID}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
-                      onIonChange={(e) => handleFilterChange(e, 'selectedGdpr')}
+                      onIonChange={(e) => handleFilterChange(e, 'articleID')}
                     >
                       {gdprList.map((gdpr) => (
                         <IonSelectOption key={gdpr.id} value={gdpr.id}>
@@ -274,11 +268,11 @@ const Page: React.FC = () => {
                   <IonItem>
                     <IonLabel>Seleziona Oswap</IonLabel>
                     <IonSelect
-                      value={filters.selectedOwasp}
+                      value={filters.owaspID}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
-                      onIonChange={(e) => handleFilterChange(e, 'selectedOwasp')}
+                      onIonChange={(e) => handleFilterChange(e, 'owaspID')}
                     >
                       {owaspList.map((owasp) => (
                         <IonSelectOption key={owasp.id} value={owasp.id}>
@@ -297,11 +291,11 @@ const Page: React.FC = () => {
                   <IonItem>
                     <IonLabel>Seleziona Weakness</IonLabel>
                     <IonSelect
-                      value={filters.selectedWeakness}
+                      value={filters.weaknessID}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
-                      onIonChange={(e) => handleFilterChange(e, 'selectedWeakness')}
+                      onIonChange={(e) => handleFilterChange(e, 'weaknessID')}
                     >
                       {weaknessList.map((weakness) => (
                         <IonSelectOption key={weakness.id} value={weakness.id}>
@@ -318,11 +312,11 @@ const Page: React.FC = () => {
                   <IonItem>
                     <IonLabel>Seleziona Strategy</IonLabel>
                     <IonSelect
-                      value={filters.selectedStrategy}
+                      value={filters.strategyID}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
-                      onIonChange={(e) => handleFilterChange(e, 'selectedStrategy')}
+                      onIonChange={(e) => handleFilterChange(e, 'strategyID')}
                     >
                       {strategyList.map((strategy) => (
                         <IonSelectOption key={strategy.id} value={strategy.id}>
@@ -341,11 +335,11 @@ const Page: React.FC = () => {
                   <IonItem>
                     <IonLabel>Seleziona Principle</IonLabel>
                     <IonSelect
-                      value={filters.selectedPrinciple}
+                      value={filters.principleID}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
-                      onIonChange={(e) => handleFilterChange(e, 'selectedPrinciple')}
+                      onIonChange={(e) => handleFilterChange(e, 'principleID')}
                     >
                       {principleList.map((principle) => (
                         <IonSelectOption key={principle.id} value={principle.id}>
@@ -362,11 +356,11 @@ const Page: React.FC = () => {
                   <IonItem>
                     <IonLabel>Seleziona Iso</IonLabel>
                     <IonSelect
-                      value={filters.selectedIso}
+                      value={filters.isoID}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
-                      onIonChange={(e) => handleFilterChange(e, 'selectedIso')}
+                      onIonChange={(e) => handleFilterChange(e, 'isoID')}
                     >
                       {isoList.map((iso) => (
                         <IonSelectOption key={iso.id} value={iso.id}>
@@ -383,11 +377,11 @@ const Page: React.FC = () => {
                   <IonItem>
                     <IonLabel>Seleziona MVC</IonLabel>
                     <IonSelect
-                      value={filters.selectedMVC}
+                      value={filters.mvc}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
-                      onIonChange={(e) => handleFilterChange(e, 'selectedMVC')}
+                      onIonChange={(e) => handleFilterChange(e, 'mvc')}
                     >
                       {mvcList.map((mvc) => (
                         <IonSelectOption key={mvc.nameMVC} value={mvc.nameMVC}>
