@@ -235,7 +235,7 @@ const Page: React.FC = () => {
                     setSearchText(text);
                     handleFilterChange(e, 'text');
                   }}
-                  placeholder='Ricerca qui il tuo Pattern'
+                  placeholder='Search Your Pattern Here'
                 ></IonSearchbar>
               </IonCol>
             </IonRow>
@@ -245,7 +245,7 @@ const Page: React.FC = () => {
               <IonCol size="12" size-md="6">
                 <IonList>
                   <IonItem>
-                    <IonLabel>Seleziona GDPR</IonLabel>
+                    <IonLabel>Select GDPR</IonLabel>
                     <IonSelect
                       value={filters.articleID}
                       multiple={true}
@@ -266,7 +266,7 @@ const Page: React.FC = () => {
               <IonCol size="12" size-md="6">
                 <IonList>
                   <IonItem>
-                    <IonLabel>Seleziona Oswap</IonLabel>
+                    <IonLabel>Select Oswap</IonLabel>
                     <IonSelect
                       value={filters.owaspID}
                       multiple={true}
@@ -289,7 +289,7 @@ const Page: React.FC = () => {
               <IonCol size="12" size-md="6">
                 <IonList>
                   <IonItem>
-                    <IonLabel>Seleziona Weakness</IonLabel>
+                    <IonLabel>Select Weakness</IonLabel>
                     <IonSelect
                       value={filters.weaknessID}
                       multiple={true}
@@ -310,7 +310,7 @@ const Page: React.FC = () => {
               <IonCol size="12" size-md="6">
                 <IonList>
                   <IonItem>
-                    <IonLabel>Seleziona Strategy</IonLabel>
+                    <IonLabel>Select Strategy</IonLabel>
                     <IonSelect
                       value={filters.strategyID}
                       multiple={true}
@@ -333,7 +333,7 @@ const Page: React.FC = () => {
               <IonCol size="12" size-md="4">
                 <IonList>
                   <IonItem>
-                    <IonLabel>Seleziona Principle</IonLabel>
+                    <IonLabel>Select Principle</IonLabel>
                     <IonSelect
                       value={filters.principleID}
                       multiple={true}
@@ -354,7 +354,7 @@ const Page: React.FC = () => {
               <IonCol size="12" size-md="4">
                 <IonList>
                   <IonItem>
-                    <IonLabel>Seleziona Iso</IonLabel>
+                    <IonLabel>Select Iso</IonLabel>
                     <IonSelect
                       value={filters.isoID}
                       multiple={true}
@@ -375,7 +375,7 @@ const Page: React.FC = () => {
               <IonCol size="12" size-md="4">
                 <IonList>
                   <IonItem>
-                    <IonLabel>Seleziona MVC</IonLabel>
+                    <IonLabel>Select MVC</IonLabel>
                     <IonSelect
                       value={filters.mvc}
                       multiple={true}

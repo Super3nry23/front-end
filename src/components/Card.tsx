@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import './Card.css'
 import { alertCircleOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
+import SelectableList from './SelectableList';
 
 interface CardProps {
   name: string;
@@ -67,25 +68,12 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
               <IonChip key={index} color="success">{mvc.name}</IonChip>
             ))}
           </IonItem>
-          <IonItem>
-            ISO:
-            {isos.map((iso, index) => (
-              <IonChip key={index} color="secondary">{iso.name} ({iso.code})</IonChip>
-            ))}
-          </IonItem>
-          <IonItem>
-            GDPR:
-            {gdprs.map((gdpr, index) => (
-              <IonChip key={index} color="tertiary">{gdpr.name} ({gdpr.code})</IonChip>
-            ))}
-          </IonItem>
-          <IonItem>
-            OWASP:
-            {owasps.map((owasp, index) => (
-              <IonChip key={index} color="warning">{owasp.name} ({owasp.code})</IonChip>
-            ))}
-          </IonItem>
-
+          <SelectableList items={isos.map((iso) => ({code: "Phase " + iso.code, text: iso.name}))}
+           title="Iso phase" color="secondary"/>
+          <SelectableList items={gdprs.map((gdpr) => ({code:"Article " + gdpr.code, text: gdpr.name}))}
+           title="GDPR Article" color="tertiary"/>
+          <SelectableList items={owasps.map((owasp) => ({code:owasp.code , text:owasp.name}))} 
+           title="Owasp" color="warning"/>
           <IonList>
             <IonListHeader>
               <IonLabel><h3>Examples:</h3></IonLabel>
