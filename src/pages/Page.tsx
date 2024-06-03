@@ -212,7 +212,7 @@ const Page: React.FC = () => {
           padding: '50px'
         }}>
           <img
-            src={patterns.length > 0 ? '../../resources/openbook.jpg' : '../../resources/closedbook.jpg'}
+            src={patterns.length > 0 ? '../../resources/open_logo.png' : '../../resources/closed_logo.png'}
             alt="book"
             style={{
               maxWidth: '250px',

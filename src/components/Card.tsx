@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import './Card.css'
 import { alertCircleOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
-import SelectableList from './SelectableList';
+import ExpandList from './ExpandList';
+import ChipList from './ChipList';
 
 interface CardProps {
   name: string;
@@ -50,29 +51,17 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
             ))}
           </IonList>
 
-          <IonItem>
-            Principle:
-            {principles.map((principle, index) => (
-              <IonChip key={index} color="primary">{principle.name}</IonChip>
-            ))}
-          </IonItem>
-          <IonItem>
-            Strategies:
-            {strategies.map((strategy, index) => (
-              <IonChip key={index} style={{ color: '#fa026e', background: '#fa026e40' }}>{strategy.name}</IonChip>
-            ))}
-          </IonItem>
-          <IonItem>
-            MVC Collocation:
-            {mvcCollocation.map((mvc, index) => (
-              <IonChip key={index} color="success">{mvc.name}</IonChip>
-            ))}
-          </IonItem>
-          <SelectableList items={isos.map((iso) => ({code: "Phase " + iso.code, text: iso.name}))}
+          <ChipList items={principles.map((p) => (p.name))} 
+            title='Principles' color='primary'/>
+          <ChipList items={strategies.map((str) => (str.name))}
+            title='Strategies' color='strategy'/>
+          <ChipList items={mvcCollocation.map((mvc) => (mvc.name))} 
+            title='MVC Collocation' color='success'/>
+          <ExpandList items={isos.map((iso) => ({code: "Phase " + iso.code, text: iso.name}))}
            title="Iso phase" color="secondary"/>
-          <SelectableList items={gdprs.map((gdpr) => ({code:"Article " + gdpr.code, text: gdpr.name}))}
+          <ExpandList items={gdprs.map((gdpr) => ({code:"Article " + gdpr.code, text: gdpr.name}))}
            title="GDPR Article" color="tertiary"/>
-          <SelectableList items={owasps.map((owasp) => ({code:owasp.code , text:owasp.name}))} 
+          <ExpandList items={owasps.map((owasp) => ({code:owasp.code , text:owasp.name}))} 
            title="Owasp" color="warning"/>
           <IonList>
             <IonListHeader>
