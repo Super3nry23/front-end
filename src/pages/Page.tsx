@@ -5,6 +5,13 @@ import Card from '../components/Card';
 import './Page.css';
 import Masonry from 'react-masonry-css';
 import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import NewsletterComponent from '../components/NewsletterComponent';
+import Newsletter from '@strapi-newsletter/react';
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const Page: React.FC = () => {
   const history = useHistory();
@@ -96,13 +103,13 @@ const Page: React.FC = () => {
       });
   };
 
-  function handleFilterChange(e, filterType:string){
+  function handleFilterChange(e, filterType: string) {
     const selectedValues = e.detail.value;
     let newFilter = filters;
-    if(filterType != "text"){
+    if (filterType != "text") {
       newFilter[filterType] = selectedValues;
-    }else{
-      newFilter[filterType] = selectedValues ? [selectedValues] : [] 
+    } else {
+      newFilter[filterType] = selectedValues ? [selectedValues] : []
     }
     setFilters(newFilter);
     fetchPatterns(filters);
@@ -398,7 +405,8 @@ const Page: React.FC = () => {
 
         <div className='CardContainer'>
           {loading ? (
-            <p>Loading...</p>
+            <p></p>
+
           ) : (
             <Masonry
               breakpointCols={breakpointColumnsObj}
@@ -413,7 +421,9 @@ const Page: React.FC = () => {
             </Masonry>
           )}
         </div>
+        <NewsletterComponent></NewsletterComponent>
       </IonContent>
+
     </IonPage >
   );
 };

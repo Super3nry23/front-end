@@ -7,6 +7,9 @@ query GetStrategies {
             id
       attributes {
                 name
+                short
+                description
+                type
         patterns {
           data {
                id

@@ -1,0 +1,41 @@
+.newsletter-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.newsletter-container {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    /* Centra il contenitore orizzontalmente */
+    background: #f7f8fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    /* Aggiunto per permettere il centrare del contenuto interno */
+    flex-direction: column;
+    /* Aggiunto per organizzare i figli in colonna */
+    justify-content: center;
+    /* Centra i figli verticalmente */
+    align-items: center;
+    /* Centra i figli orizzontalmente */
+}
+
+.newsletter-input {
+    margin-bottom: 15px;
+}
+
+.newsletter-button {
+    --background: #3880ff;
+    --background-activated: #3dc2ff;
+    --background-focused: #3dc2ff;
+    --background-hover: #4c8dff;
+    --border-color: #3880ff;
+    --border-style: solid;
+    --border-width: 1px;
+    --border-radius: 4px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
