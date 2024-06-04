@@ -12,18 +12,13 @@ const ExpandList :React.FC<{items:listElement[],title:string,color:string}> =
     {
     const [focusedItem,setFocusedItem] = useState<listElement|null>(null);
 
-    function focusItem(itemCode:listElement|null){
-        console.log(itemCode);
-        setFocusedItem(itemCode);
-    }
-
     return ( 
         <IonItem>
             {title + ":"}
             { focusedItem==null && 
                 items.map((item:listElement) => (
                 <IonChip key={item.code} color={color} 
-                onClick={() => (focusItem({code:item.code,text:item.text}))}>
+                onClick={() => (setFocusedItem(item))}>
                     <IonIcon icon={addOutline} />
                     <IonLabel>{item.code}</IonLabel>
                 </IonChip>
@@ -31,7 +26,7 @@ const ExpandList :React.FC<{items:listElement[],title:string,color:string}> =
             {
                 focusedItem != null && 
                 <IonChip key={focusedItem.code} color={color} 
-                onClick={() => (focusItem(null))}>
+                onClick={() => (setFocusedItem(null))}>
                     <IonIcon icon={removeOutline} />
                     <IonLabel>{focusedItem.code + " : " + focusedItem.text}</IonLabel>
                 </IonChip>        

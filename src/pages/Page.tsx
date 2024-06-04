@@ -5,13 +5,6 @@ import Card from '../components/Card';
 import './Page.css';
 import Masonry from 'react-masonry-css';
 import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import NewsletterComponent from '../components/NewsletterComponent';
-import Newsletter from '@strapi-newsletter/react';
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 const Page: React.FC = () => {
   const history = useHistory();
@@ -19,12 +12,12 @@ const Page: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [patterns, setPatterns] = useState<any[]>([]);
 
-  const [gdprList, setGdprList] = useState<{ nameGdpr: string; id: number; }[]>([]);
-  const [owaspList, setOwaspList] = useState<{ nameOwasp: string; id: number; }[]>([]);
-  const [weaknessList, setWeaknessList] = useState<{ nameWeakness: string; id: number; }[]>([]);
-  const [isoList, setIsoList] = useState<{ nameIso: string; id: number; }[]>([]);
-  const [strategyList, setStrategyList] = useState<{ nameStrategy: string; id: number; }[]>([]);
-  const [principleList, setPrincipleList] = useState<{ namePrinciple: string; id: number; }[]>([]);
+  const [gdprList, setGdprList] = useState<gdpr[]>([]);
+  const [owaspList, setOwaspList] = useState<owasp[]>([]);
+  const [weaknessList, setWeaknessList] = useState<weakness[]>([]);
+  const [strategyList, setStrategyList] = useState<strategy[]>([]);
+  const [principleList, setPrincipleList] = useState<principle[]>([]);
+  const [isoList, setIsoList] = useState<iso[]>([]);
   const [mvcList] = useState<{ nameMVC: string }[]>([
     { nameMVC: 'Model' },
     { nameMVC: 'View' },
@@ -116,77 +109,95 @@ const Page: React.FC = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:1337/api/gdprs')
-      .then((response) => {
-        const mappedGdpr = response.data.data.map((g: any) => ({
-          nameGdpr: g.attributes.name,
-          id: g.id
-        }));
-        setGdprList(mappedGdpr);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    fetchGdpr()
+      .then(setGdprList)
+      .catch((error) => { console.error("Error:", error) });
+    fetchOwasp()
+      .then(setOwaspList)
+      .catch((error) => { console.error("Error:", error) });
+    fetchWeakness()
+      .then(setWeaknessList)
+      .catch((error) => { console.error("Error:", error) });
+    fetchStrategy()
+      .then(setStrategyList)
+      .catch((error) => { console.error("Error:", error) });
+    fetchPrinciple()
+      .then(setPrincipleList)
+      .catch((error) => { console.error("Error:", error) });
+    fetchIso()
+      .then(setIsoList)
+      .catch((error) => { console.error("Error:", error) });
+    // axios.get('http://localhost:1337/api/gdprs')
+    //   .then((response) => {
+    //     const mappedGdpr = response.data.data.map((g: any) => ({
+    //       nameGdpr: g.attributes.name,
+    //       id: g.id
+    //     }));
+    //     setGdprList(mappedGdpr);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
 
-    axios.get('http://localhost:1337/api/owasps')
-      .then((response) => {
-        const mappedOwasp = response.data.data.map((o: any) => ({
-          nameOwasp: o.attributes.name,
-          id: o.id
-        }));
-        setOwaspList(mappedOwasp);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    // axios.get('http://localhost:1337/api/owasps')
+    //   .then((response) => {
+    //     const mappedOwasp = response.data.data.map((o: any) => ({
+    //       nameOwasp: o.attributes.name,
+    //       id: o.id
+    //     }));
+    //     setOwaspList(mappedOwasp);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
 
-    axios.get('http://localhost:1337/api/weaknesses')
-      .then((response) => {
-        const mappedWeakness = response.data.data.map((w: any) => ({
-          nameWeakness: w.attributes.name,
-          id: w.id
-        }));
-        setWeaknessList(mappedWeakness);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    // axios.get('http://localhost:1337/api/weaknesses')
+    //   .then((response) => {
+    //     const mappedWeakness = response.data.data.map((w: any) => ({
+    //       nameWeakness: w.attributes.name,
+    //       id: w.id
+    //     }));
+    //     setWeaknessList(mappedWeakness);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
 
-    axios.get('http://localhost:1337/api/strategies')
-      .then((response) => {
-        const mappedStrayegy = response.data.data.map((w: any) => ({
-          nameStrategy: w.attributes.name,
-          id: w.id
-        }));
-        setStrategyList(mappedStrayegy);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    // axios.get('http://localhost:1337/api/strategies?fields[0]=id&fields[1]=name')
+    //   .then((response) => {
+    //     const mappedStrayegy = response.data.data.map((w: any) => ({
+    //       nameStrategy: w.attributes.name,
+    //       id: w.id
+    //     }));
+    //     setStrategyList(mappedStrayegy);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
 
-    axios.get('http://localhost:1337/api/principles')
-      .then((response) => {
-        const mappedPrinciples = response.data.data.map((w: any) => ({
-          namePrinciple: w.attributes.name,
-          id: w.id
-        }));
-        setPrincipleList(mappedPrinciples);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    // axios.get('http://localhost:1337/api/principles')
+    //   .then((response) => {
+    //     const mappedPrinciples = response.data.data.map((w: any) => ({
+    //       namePrinciple: w.attributes.name,
+    //       id: w.id
+    //     }));
+    //     setPrincipleList(mappedPrinciples);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
 
-    axios.get('http://localhost:1337/api/isos')
-      .then((response) => {
-        const mappedIso = response.data.data.map((w: any) => ({
-          nameIso: w.attributes.name,
-          id: w.id
-        }));
-        setIsoList(mappedIso);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    // axios.get('http://localhost:1337/api/isos')
+    //   .then((response) => {
+    //     const mappedIso = response.data.data.map((w: any) => ({
+    //       nameIso: w.attributes.name,
+    //       id: w.id
+    //     }));
+    //     setIsoList(mappedIso);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
   }, []);
 
   const breakpointColumnsObj = {
@@ -256,13 +267,13 @@ const Page: React.FC = () => {
                     <IonSelect
                       value={filters.articleID}
                       multiple={true}
-                      cancelText="Annulla"
-                      okText="Conferma"
+                      cancelText="Cancel"
+                      okText="Confirm"
                       onIonChange={(e) => handleFilterChange(e, 'articleID')}
                     >
                       {gdprList.map((gdpr) => (
                         <IonSelectOption key={gdpr.id} value={gdpr.id}>
-                          {gdpr.nameGdpr}
+                          {gdpr.code + ". " + gdpr.name}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
@@ -283,7 +294,7 @@ const Page: React.FC = () => {
                     >
                       {owaspList.map((owasp) => (
                         <IonSelectOption key={owasp.id} value={owasp.id}>
-                          {owasp.nameOwasp}
+                          {owasp.code + ": " + owasp.name}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
@@ -306,7 +317,7 @@ const Page: React.FC = () => {
                     >
                       {weaknessList.map((weakness) => (
                         <IonSelectOption key={weakness.id} value={weakness.id}>
-                          {weakness.nameWeakness}
+                          {weakness.code + ": " + weakness.name}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
@@ -327,7 +338,7 @@ const Page: React.FC = () => {
                     >
                       {strategyList.map((strategy) => (
                         <IonSelectOption key={strategy.id} value={strategy.id}>
-                          {strategy.nameStrategy}
+                          {strategy.name}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
@@ -350,7 +361,7 @@ const Page: React.FC = () => {
                     >
                       {principleList.map((principle) => (
                         <IonSelectOption key={principle.id} value={principle.id}>
-                          {principle.namePrinciple}
+                          {principle.name}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
@@ -371,7 +382,7 @@ const Page: React.FC = () => {
                     >
                       {isoList.map((iso) => (
                         <IonSelectOption key={iso.id} value={iso.id}>
-                          {iso.nameIso}
+                          {iso.code + ": " + iso.name}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
