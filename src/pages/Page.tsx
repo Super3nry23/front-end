@@ -7,7 +7,7 @@ import Masonry from 'react-masonry-css';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import NewsletterComponent from '../components/NewsletterComponent';
-import { fetchGdpr, fetchIso, fetchOwasp, fetchPrinciple, fetchStrategy, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
+import { fetchGdpr, fetchIso, fetchOwasp, fetchPatternShort, fetchPrinciple, fetchStrategyShort, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -125,7 +125,7 @@ const Page: React.FC = () => {
     fetchWeakness()
       .then(setWeaknessList)
       .catch((error) => {console.error("Error:",error)});
-    fetchStrategy()
+    fetchStrategyShort()
       .then(setStrategyList)
       .catch((error) => {console.error("Error:",error)});
     fetchPrinciple()
@@ -138,7 +138,7 @@ const Page: React.FC = () => {
 
   const breakpointColumnsObj = {
     default: 2,  // Numero di colonne per default
-    900: 1,     // Numero di colonne per schermi più grandi di 900px
+    900: 1,      // Numero di colonne per schermi più grandi di 900px
     700: 1,      // Numero di colonne per schermi più grandi di 700px
     500: 1       // Numero di colonne per schermi più grandi di 500px
   };

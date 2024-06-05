@@ -34,6 +34,11 @@ export interface iso {
     name:string
 }
 
+export interface pattern {
+    id:number
+    name:string
+}
+
 export function fetchGdpr() : Promise<gdpr[]>{
     return new Promise<gdpr[]> ((resolve,reject) => {
         axios.get('http://localhost:1337/api/gdprs')
@@ -79,7 +84,7 @@ export function fetchWeakness() : Promise<weakness[]>{
     });
 }
 
-export function fetchStrategy() : Promise<strategy[]>{
+export function fetchStrategyShort() : Promise<strategy[]>{
     return new Promise<strategy[]> ((resolve,reject) => {
         axios.get('http://localhost:1337/api/strategies?fields[0]=id&fields[1]=name')
         .then((response) => {
@@ -116,6 +121,21 @@ export function fetchIso() : Promise<iso[]>{
             if(response.status == 200){
                 resolve(response.data.data.map(
                     (iso:any) => ({id:iso.id,name:iso.attributes.name,code:iso.attributes.code})
+                ))
+            }else{
+                reject("Request not successful " + response.status)
+            }
+        }).catch(reject)
+    });
+}
+
+export function fetchPatternShort() : Promise<pattern[]>{
+    return new Promise<pattern[]> ((resolve,reject) => {
+        axios.get('http://localhost:1337/api/patterns?fields[0]=id&fields[1]=name')
+        .then((response) => {
+            if(response.status == 200){
+                resolve(response.data.data.map(
+                    (pt:any) => ({id:pt.id,name:pt.attributes.name})
                 ))
             }else{
                 reject("Request not successful " + response.status)
