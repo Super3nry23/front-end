@@ -2,6 +2,7 @@ import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/r
 import { IonReactRouter } from '@ionic/react-router';
 import Page from './pages/Page';
 import Strategy from './pages/Strategy';
+import NewsletterPage from './pages/Newsletter';
 import ApolloAppProvider from './components/ApolloProvider';
 
 /* Core CSS required for Ionic components to work properly */
@@ -45,6 +46,7 @@ const App: React.FC = () => {
           <IonSplitPane contentId="main">
             <IonRouterOutlet id="main">
               <Route path="/strategy" component={Strategy} exact />
+              <Route path="/newsletter" component={NewsletterPage} />
               <Route path="/" component={Page} exact />
             </IonRouterOutlet>
           </IonSplitPane>
