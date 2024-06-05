@@ -3,6 +3,8 @@ import { IonReactRouter } from '@ionic/react-router';
 import Page from './pages/Page';
 import Strategy from './pages/Strategy';
 import NewsletterPage from './pages/Newsletter';
+//import SubscribeConfirmPage from './pages/SubscribeConfirm';
+//import UnsubscribeConfirmPage from './pages/UnsubscribeConfirmPage';
 import ApolloAppProvider from './components/ApolloProvider';
 
 /* Core CSS required for Ionic components to work properly */

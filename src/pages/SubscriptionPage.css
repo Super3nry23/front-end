@@ -1,0 +1,26 @@
+/* SubscriptionPage.css */
+
+.subscription-page-content {
+    padding: 20px;
+    /* Aggiungi padding secondo necessità */
+}
+
+.subscription-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Permette agli elementi di andare a capo se non c'è abbastanza spazio */
+    gap: 20px;
+    /* Distanza tra i componenti */
+    justify-content: center;
+    /* Centra i componenti orizzontalmente */
+    align-items: center;
+    /* Centra i componenti verticalmente */
+}
+
+/* Stili per dispositivi più piccoli */
+@media (max-width: 768px) {
+    .subscription-container {
+        flex-direction: column;
+        /* Impila i componenti verticalmente su schermi piccoli */
+    }
+}

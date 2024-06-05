@@ -1,20 +1,25 @@
 import React from 'react';
 import NewsletterComponent from '../components/NewsletterComponent';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import UnsubscribeComponent from '../components/UnsubscribeComponent';
+import { IonPage, IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/react'; // Aggiunto IonHeader, IonToolbar e IonTitle
+import './SubscriptionPage.css';
 
-const NewsletterPage: React.FC = () => {
+const SubscriptionPage: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Iscriviti alla nostra Newsletter</IonTitle>
+                    <IonTitle>Iscriviti o disiscriviti dalla nostra Newsletter</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
-                <NewsletterComponent />
+            <IonContent className="subscription-page-content">
+                <div className="subscription-container">
+                    <NewsletterComponent />
+                    <UnsubscribeComponent />
+                </div>
             </IonContent>
         </IonPage>
     );
 };
 
-export default NewsletterPage;
+export default SubscriptionPage;

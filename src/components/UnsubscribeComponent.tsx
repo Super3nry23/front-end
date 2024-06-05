@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { IonContent, IonInput, IonButton, IonIcon, IonToast } from '@ionic/react';
+import { IonContent, IonInput, IonButton, IonToast, IonIcon } from '@ionic/react';
 import { mailOutline } from 'ionicons/icons';
-import './NewsletterComponent.css';
+import './UnsubscribeComponent.css';
 
-const NewsletterComponent: React.FC = () => {
+const UnsubscribeComponent: React.FC = () => {
     const [email, setEmail] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
 
-    const subscribeToNewsletter = async () => {
-        console.log(email);
+    const unsubscribeFromNewsletter = async () => {
         try {
-            const response = await fetch('http://localhost:1337/api/newsletter/subscribe', {
+            const response = await fetch('http://localhost:1337/api/newsletter/unsubscribe', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,33 +18,32 @@ const NewsletterComponent: React.FC = () => {
                 body: JSON.stringify({ data: { email } }),
             });
 
-
             const data = await response.json();
 
             if (data.result === 'SUCCESS') {
-                setToastMessage('Iscrizione avvenuta con successo! Controlla la tua email per confermare.');
+                setToastMessage('Disiscrizione avvenuta con successo!');
             } else {
-                setToastMessage('Si è verificato un errore durante l\'iscrizione.');
+                setToastMessage('Si è verificato un errore durante la disiscrizione.');
             }
         } catch (error) {
-            console.error('Errore durante l\'iscrizione:', error);
-            setToastMessage('Si è verificato un errore durante l\'iscrizione.');
+            console.error('Errore durante la disiscrizione:', error);
+            setToastMessage('Si è verificato un errore durante la disiscrizione.');
         }
         setShowToast(true);
     };
 
     return (
-        <IonContent className="ion-padding newsletter-content">
-            <div className="newsletter-container">
+        <IonContent className="ion-padding unsubscribe-content">
+            <div className="unsubscribe-container">
                 <IonInput
                     value={email}
                     onIonChange={e => setEmail(e.detail.value!)}
                     type="email"
-                    placeholder="Inserisci la tua email"
-                    className="newsletter-input" />
-                <IonButton expand="block" onClick={subscribeToNewsletter} className="newsletter-button">
+                    placeholder="Inserisci la tua email per disiscriverti"
+                    className="unsubscribe-input" />
+                <IonButton expand="block" onClick={unsubscribeFromNewsletter} className="unsubscribe-button">
                     <IonIcon slot="start" icon={mailOutline} />
-                    Iscriviti
+                    Disiscriviti
                 </IonButton>
             </div>
             <IonToast
@@ -58,4 +56,4 @@ const NewsletterComponent: React.FC = () => {
     );
 };
 
-export default NewsletterComponent;
+export default UnsubscribeComponent;

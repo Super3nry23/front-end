@@ -18,7 +18,6 @@ const Page: React.FC = () => {
 
   const [searchText, setSearchText] = useState<string>('');
   const [patterns, setPatterns] = useState<any[]>([]);
-
   const [gdprList, setGdprList] = useState<gdpr[]>([]);
   const [owaspList, setOwaspList] = useState<owasp[]>([]);
   const [weaknessList, setWeaknessList] = useState<weakness[]>([]);
@@ -118,22 +117,22 @@ const Page: React.FC = () => {
   useEffect(() => {
     fetchGdpr()
       .then(setGdprList)
-      .catch((error) => {console.error("Error:",error)});
+      .catch((error) => { console.error("Error:", error) });
     fetchOwasp()
       .then(setOwaspList)
-      .catch((error) => {console.error("Error:",error)});
+      .catch((error) => { console.error("Error:", error) });
     fetchWeakness()
       .then(setWeaknessList)
-      .catch((error) => {console.error("Error:",error)});
+      .catch((error) => { console.error("Error:", error) });
     fetchStrategyShort()
       .then(setStrategyList)
-      .catch((error) => {console.error("Error:",error)});
+      .catch((error) => { console.error("Error:", error) });
     fetchPrinciple()
       .then(setPrincipleList)
-      .catch((error) => {console.error("Error:",error)});
+      .catch((error) => { console.error("Error:", error) });
     fetchIso()
       .then(setIsoList)
-      .catch((error) => {console.error("Error:",error)});
+      .catch((error) => { console.error("Error:", error) });
   }, []);
 
   const breakpointColumnsObj = {
@@ -318,7 +317,7 @@ const Page: React.FC = () => {
                     >
                       {isoList.map((iso) => (
                         <IonSelectOption key={iso.id} value={iso.id}>
-                          {iso.code + ": " +iso.name}
+                          {iso.code + ": " + iso.name}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
