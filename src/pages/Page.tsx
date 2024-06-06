@@ -7,11 +7,9 @@ import Masonry from 'react-masonry-css';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import NewsletterComponent from '../components/NewsletterComponent';
-import { fetchGdpr, fetchIso, fetchOwasp, fetchPatternShort, fetchPrinciple, fetchStrategyShort, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+import { fetchGdpr, fetchIso, fetchOwasp, fetchPrinciple, fetchStrategyShort, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
+import { breakpointColumnsObj } from '../helpers/breakpoint';
+import Logo from '../components/Logo';
 
 const Page: React.FC = () => {
   const history = useHistory();
@@ -135,12 +133,6 @@ const Page: React.FC = () => {
       .catch((error) => { console.error("Error:", error) });
   }, []);
 
-  const breakpointColumnsObj = {
-    default: 2,  // Numero di colonne per default
-    900: 1,      // Numero di colonne per schermi più grandi di 900px
-    700: 1,      // Numero di colonne per schermi più grandi di 700px
-    500: 1       // Numero di colonne per schermi più grandi di 500px
-  };
 
   return (
     <IonPage>
@@ -157,25 +149,7 @@ const Page: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '15vh',
-          padding: '50px'
-        }}>
-          <img
-            src={patterns.length > 0 ? '../../resources/open_logo.png' : '../../resources/closed_logo.png'}
-            alt="book"
-            style={{
-              maxWidth: '250px',
-              maxHeight: '250px',
-              objectFit: 'contain',
-              margin: 'auto',
-              borderRadius: '10px'
-            }}
-          />
-        </div>
+        <Logo nPattern={patterns.length} />
 
         <div className="container">
           <IonGrid>

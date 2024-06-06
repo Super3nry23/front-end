@@ -14,13 +14,17 @@ import {
 } from '@ionic/react';
 import StrategyCard from '../components/StrategyCard';
 import PlaceholderCard from '../components/PlaceholderCard';
-import { GET_STRATEGIES } from '../Query/graphQL';
+import { GET_STRATEGIES, GET_STRATEGIES_BY_PATTERN_TYPE, GET_STRATEGIES_EXTENDED } from '../Query/graphQL';
 import Masonry from 'react-masonry-css';
 import './Page.css';
-import { fetchGdpr, fetchIso, fetchOwasp, fetchPrinciple, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
+import { fetchGdpr, fetchIso, fetchOwasp, fetchPatternShort, fetchPrinciple, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
+import { breakpointColumnsObj } from '../helpers/breakpoint';
+import Logo from '../components/Logo';
 
 const Strategy: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_STRATEGIES);
+  // Fetch Data
+  let { loading, error, data } = useQuery(GET_STRATEGIES_EXTENDED);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredStrategies, setFilteredStrategies] = useState([]);
   const [principleList, setPrincipleList] = useState<principle[]>([]);
@@ -28,7 +32,6 @@ const Strategy: React.FC = () => {
   const [gdprList, setGdprList] = useState<gdpr[]>([]);
   const [owaspList, setOwaspList] = useState<owasp[]>([]);
   const [weaknessList, setWeaknessList] = useState<weakness[]>([]);
-  const [strategyList, setStrategyList] = useState<strategy[]>([]);
   const [isoList, setIsoList] = useState<iso[]>([]);
   const [mvcList] = useState<{ nameMVC: string }[]>([
     { nameMVC: 'Model' },
@@ -36,36 +39,66 @@ const Strategy: React.FC = () => {
     { nameMVC: 'Controller' },
   ]);
   const [typeList] = useState<{ nameType: string }[]>([
-    { nameType: 'Data Oriented' },
-    { nameType: 'Process Oriented' },
+    { nameType: 'Data_Oriented' },
+    { nameType: 'Process_Oriented' },
   ]);
 
-  const [filters, setFilters] = useState({
-    patternID: [],
-    articleID: [],
-    owaspID: [],
-    weaknessID: [],
-    strategyID: [],
-    principleID: [],
-    isoID: [],
-    mvc: [],
-    text: [],
-    type: []
-  });
+  const [selectedTypeList, setSelectedTypeList] = useState<{ nameType: string }[]>([]);
+  const [selectedPatternList, setSelectedPatternList] = useState<any[]>([]);
+  const [selectedIsoList, setSelectedIsoList] = useState<any[]>([]);
+  const [selectedGdprList, setSelectedGdprList] = useState<any[]>([]);
+  const [selectedOwaspList, setSelectedOwaspList] = useState<any[]>([]);
+  const [selectedWeaknessList, setSelectedWeaknessList] = useState<any[]>([]);
+  const [selectedPrincipleList, setSelectedPrincipleList] = useState<any[]>([]);
+  const [selectedMVCList, setSelectedMVCList] = useState<{ nameMVC: string }[]>([]);
 
-  // Gestione degli effetti e delle funzioni
+  // Gestione degli effetti, cambiamenti e funzioni
   useEffect(() => {
     if (data) {
       const filtered = data.strategies.data.filter((s) =>
-        s.attributes.name.toLowerCase().includes(searchTerm.toLowerCase())
+        s.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        s.attributes.type.includes(selectedTypeList) &&
+        selectedPatternList.every(id => s.attributes.patterns.data.some(pattern => pattern.id == id)) &&
+        selectedIsoList.every(id =>
+          s.attributes.patterns.data.some(pattern =>
+            pattern.attributes.isos.data.some(iso => iso.id == id)
+          )
+        ) &&
+        selectedGdprList.every(id =>
+          s.attributes.patterns.data.some(pattern =>
+            pattern.attributes.gdprs.data.some(gdpr => gdpr.id == id)
+          )
+        ) &&
+        selectedOwaspList.every(id =>
+          s.attributes.patterns.data.some(pattern =>
+            pattern.attributes.owasps.data.some(owasp => owasp.id == id)
+          )
+        ) &&
+        selectedWeaknessList.every(id =>
+          s.attributes.patterns.data.some(pattern =>
+            pattern.attributes.weaknesses.data.some(weakness => weakness.id == id)
+          )
+        ) &&
+        selectedPrincipleList.every(id =>
+          s.attributes.patterns.data.some(pattern =>
+            pattern.attributes.principles.data.some(principle => principle.id == id)
+          )
+        )
       );
+      console.log(filtered);
       setFilteredStrategies(filtered);
     }
-  }, [searchTerm, data]);
+  }, [selectedTypeList, searchTerm, data, selectedPatternList, selectedIsoList, selectedGdprList, selectedOwaspList, selectedWeaknessList, selectedPrincipleList, selectedMVCList]);
 
+
+
+  // Fetch Valori Filtri
   useEffect(() => {
     fetchPrinciple()
       .then(setPrincipleList)
+      .catch((error) => { console.error("Error:", error) });
+    fetchPatternShort()
+      .then(setPatterns)
       .catch((error) => { console.error("Error:", error) });
     fetchGdpr()
       .then(setGdprList)
@@ -81,34 +114,69 @@ const Strategy: React.FC = () => {
       .catch((error) => { console.error("Error:", error) });
   }, []);
 
+  // Hendler Filtri
   const handleSearch = (event: CustomEvent) => {
     setSearchTerm(event.detail.value);
+  };
+
+  const handleType = (event: CustomEvent) => {
+    setSelectedTypeList(event.detail.value);
+  };
+
+  const handlePattern = (event: CustomEvent) => {
+    setSelectedPatternList(event.detail.value);
+  };
+
+  const handleIso = (event: CustomEvent) => {
+    setSelectedIsoList(event.detail.value);
+  };
+
+  const handleGdpr = (event: CustomEvent) => {
+    setSelectedGdprList(event.detail.value);
+  };
+
+  const handleOwasp = (event: CustomEvent) => {
+    setSelectedOwaspList(event.detail.value);
+  };
+
+  const handleWeakness = (event: CustomEvent) => {
+    setSelectedWeaknessList(event.detail.value);
+  };
+
+  const handlePrinciple = (event: CustomEvent) => {
+    setSelectedPrincipleList(event.detail.value);
+  };
+
+  const handleMVC = (event: CustomEvent) => {
+    setSelectedMVCList(event.detail.value);
   };
 
   // Render condizionale prima del return principale
   if (loading) return Array(10).fill().map((_, i) => <PlaceholderCard key={i} />);
   if (error) return <p>Error :(</p>;
 
-  const breakpointColumnsObj = {
-    default: 2,  // Numero di colonne per default
-    900: 1,      // Numero di colonne per schermi più grandi di 900px
-    700: 1,      // Numero di colonne per schermi più grandi di 700px
-    500: 1       // Numero di colonne per schermi più grandi di 500px
-  };
 
   return (
     <IonPage>
-      <IonContent fullscreen>
+      <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
           <IonTitle>Strategy Research</IonTitle>
           <IonButtons slot="end">
-            <IonRouterLink href='/'>Pattern Research</IonRouterLink>
+            <IonTitle style={{ color: 'yellow' }}>
+              <IonRouterLink href='/' style={{ color: 'inherit' }}>
+                Pattern Research
+              </IonRouterLink>
+            </IonTitle>
+
           </IonButtons>
         </IonToolbar>
+      </IonHeader>
 
+      <IonContent fullscreen>
+        <Logo nPattern={patterns.length} />
 
         <div className="container">
           <IonGrid>
@@ -123,15 +191,125 @@ const Strategy: React.FC = () => {
             </IonRow>
 
             <IonRow>
+              <IonCol size="12" size-md="6">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Select GDPR</IonLabel>
+                    <IonSelect
+                      value={selectedGdprList}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={handleGdpr}
+                    >
+                      {gdprList.map((gdpr) => (
+                        <IonSelectOption key={gdpr.id} value={gdpr.id}>
+                          {gdpr.code + ". " + gdpr.name}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+
+              <IonCol size="12" size-md="6">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Select Oswap</IonLabel>
+                    <IonSelect
+                      value={selectedOwaspList}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={handleOwasp}
+                    >
+                      {owaspList.map((owasp) => (
+                        <IonSelectOption key={owasp.id} value={owasp.id}>
+                          {owasp.code + ": " + owasp.name}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+            </IonRow>
+
+            <IonRow>
+              <IonCol size="12" size-md="4">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Select Principles</IonLabel>
+                    <IonSelect
+                      value={selectedPrincipleList}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={handlePrinciple}
+                    >
+                      {principleList.map((p) => (
+                        <IonSelectOption key={p.id} value={p.id}>
+                          {p.name}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+
+              <IonCol size="12" size-md="4">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Select Weakness</IonLabel>
+                    <IonSelect
+                      value={selectedWeaknessList}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={handleWeakness}
+                    >
+                      {weaknessList.map((w) => (
+                        <IonSelectOption key={w.id} value={w.id}>
+                          {w.code + ": " + w.name}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+
+              <IonCol size="12" size-md="4">
+                <IonList>
+                  <IonItem>
+                    <IonLabel>Select MVC</IonLabel>
+                    <IonSelect
+                      value={selectedMVCList}
+                      multiple={true}
+                      cancelText="Annulla"
+                      okText="Conferma"
+                      onIonChange={handleMVC}
+                    >
+                      {mvcList.map((mvc) => (
+                        <IonSelectOption key={mvc.nameMVC} value={mvc.nameMVC}>
+                          {mvc.nameMVC}
+                        </IonSelectOption>
+                      ))}
+                    </IonSelect>
+                  </IonItem>
+                </IonList>
+              </IonCol>
+            </IonRow>
+
+            <IonRow>
               <IonCol size="12" size-md="4">
                 <IonList>
                   <IonItem>
                     <IonLabel>Select Pattern</IonLabel>
                     <IonSelect
-                      value={filters.patternID}
+                      value={selectedPatternList}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
+                      onIonChange={handlePattern}
                     >
                       {patterns.map((pattern) => (
                         <IonSelectOption key={pattern.id} value={pattern.id}>
@@ -148,11 +326,11 @@ const Strategy: React.FC = () => {
                   <IonItem>
                     <IonLabel>Select Iso</IonLabel>
                     <IonSelect
-                      value={filters.isoID}
+                      value={selectedIsoList}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
-
+                      onIonChange={handleIso}
                     >
                       {isoList.map((iso) => (
                         <IonSelectOption key={iso.id} value={iso.id}>
@@ -169,10 +347,11 @@ const Strategy: React.FC = () => {
                   <IonItem>
                     <IonLabel>Select Type</IonLabel>
                     <IonSelect
-                      value={filters.type}
+                      value={selectedTypeList}
                       multiple={true}
                       cancelText="Annulla"
                       okText="Conferma"
+                      onIonChange={handleType}
                     >
                       {typeList.map((type) => (
                         <IonSelectOption key={type.nameType} value={type.nameType}>
@@ -184,38 +363,43 @@ const Strategy: React.FC = () => {
                 </IonList>
               </IonCol>
             </IonRow>
+
           </IonGrid>
         </div>
 
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="masonry-grid"
-          columnClassName="my-masonry-grid_column"
-        >
-          {filteredStrategies.length > 0 ? (
-            filteredStrategies.map((s) => (
-              <StrategyCard
-                key={s.id}
-                name={s.attributes.name}
-                short={s.attributes.short}
-                desc={s.attributes.description}
-                type={s.attributes.type}
-                patterns={s.attributes.patterns.data}
-              />
-            ))
-          ) : (
-            data.strategies.data.map((s) => (
-              <StrategyCard
-                key={s.id}
-                name={s.attributes.name}
-                short={s.attributes.short}
-                desc={s.attributes.description}
-                type={s.attributes.type}
-                patterns={s.attributes.patterns.data}
-              />
-            ))
-          )}
-        </Masonry>
+        <div className='CardContainer'>
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {filteredStrategies.length >= 0 ? (
+              filteredStrategies.map((s) => (
+                <div key={s.id}>
+                  <StrategyCard
+                    name={s.attributes.name}
+                    short={s.attributes.short}
+                    desc={s.attributes.description}
+                    type={s.attributes.type}
+                    patterns={s.attributes.patterns.data}
+                  />
+                </div>
+              ))
+            ) : (
+              data.strategies.data.map((s) => (
+                <div key={s.id}>
+                  <StrategyCard
+                    name={s.attributes.name}
+                    short={s.attributes.short}
+                    desc={s.attributes.description}
+                    type={s.attributes.type}
+                    patterns={s.attributes.patterns.data}
+                  />
+                </div>
+              ))
+            )}
+          </Masonry>
+        </div>
       </IonContent>
     </IonPage>
   );

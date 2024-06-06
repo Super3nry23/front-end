@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import './Card.css'
 import { alertCircleOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
-import ExpandList from './ExpandList';
-import ChipList from './ChipList';
 
 interface CardProps {
     name: string;
@@ -37,7 +35,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", short = "shor
                     <IonItemDivider>
                         <h3>Patterns</h3>
                         {patterns.map((p, index) => (
-                            <IonChip color='success'>
+                            <IonChip color='success' key={index}>
                                 {p.attributes.name}
                             </IonChip>
                         ))}
