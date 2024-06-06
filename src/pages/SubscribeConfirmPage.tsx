@@ -1,30 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import { IonPage, IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/react';
 import { useLocation } from 'react-router';
+import axios from 'axios';
 
 // Funzione per effettuare la chiamata API al backend per confermare l'iscrizione o la disiscrizione
 const confirmSubscription = async (id: string, code: string, action: string) => {
     const endpoint = action === 'subscribe' ?
         `http://localhost:1337/api/newsletter/subscribe/${id}&${code}` :
         `http://localhost:1337/api/newsletter/unsubscribe/${id}&${code}`;
-    console.log("Ppocodio");
 
-    try {
-        const response = await fetch(endpoint, { method: 'GET' });
-        if (response.ok) {
-            const data = await response.json();
-            return data.message;
-        } else {
-            throw new Error('Network response was not ok.');
-        }
-    } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
-        throw error;
-    }
+    return axios.get(endpoint,{
+        validateStatus: (status) => status == 200 || status == 400
+    });
 };
 
+const msgs= {
+    subscribe:{
+        ok:{
+            title:"Subscription Successful",
+            subtitle:"Welcome to our Newsletter",
+        },
+        fail:{
+            title:"Subscription Unsuccessful",
+            subtitle:"This veryfication link may be expired",
+        }
+    },
+    unsubscribe:{
+        ok:{
+            title:"Unubscription Successful",
+            subtitle:"We will miss you",
+        },
+        fail:{
+            title:"Unsubscription Unsuccessful",
+            subtitle:"This veryfication link may be expired",
+        }
+    },
+    fail:{
+        title:"Could not reach the server :-/",
+        subtitle:"Please try again later",
+    },
+
+}
+
 const NewsletterConfirmation: React.FC = () => {
-    const [confirmationMessage, setConfirmationMessage] = useState('');
+    const [confirmationMessage, setConfirmationMessage] = useState<{title:string,subtitle:string}|null>(null);
     const { search } = useLocation();
     const query = new URLSearchParams(search);
 
@@ -38,10 +57,18 @@ const NewsletterConfirmation: React.FC = () => {
 
         if (id && code && action) {
             confirmSubscription(id, code, action)
-                .then(message => setConfirmationMessage(message))
-            //.catch(error => setConfirmationMessage('Si è verificato un errore durante la conferma.'));
+                .then(response => {
+                    if(response.status == 200) setConfirmationMessage(msgs[action].ok)
+                    if(response.status == 400) setConfirmationMessage(msgs[action].fail)
+                })
+                .catch(err => {
+                    console.log(err)
+                    setConfirmationMessage(msgs.fail)
+                }
+                )
+
         } else {
-            setConfirmationMessage('Parametri mancanti o non validi.');
+            setConfirmationMessage({title:'Missing Param',subtitle:' Link may Be Broken'});
         }
     }, [search]);
 
@@ -55,10 +82,14 @@ const NewsletterConfirmation: React.FC = () => {
             <IonContent className="ion-padding">
                 {confirmationMessage ? (
                     <div>
-                        <h2>{confirmationMessage}</h2>
+                        <h2>{confirmationMessage.title}</h2>
+                        <h3>{confirmationMessage.subtitle}</h3>
                     </div>
                 ) : (
-                    <div>CONFERMA AVVENUTA</div>
+                    <div>
+                         <h2>Awaiting server</h2>
+                         <h3>Please Wait a moment ...</h3>
+                    </div>
                 )}
             </IonContent>
         </IonPage>
