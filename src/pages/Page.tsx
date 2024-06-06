@@ -151,7 +151,11 @@ const Page: React.FC = () => {
           </IonButtons>
           <IonTitle>Pattern Research</IonTitle>
           <IonButtons slot="end">
+            <IonRouterLink href='/newsletter'>Newsletter</IonRouterLink>
+            &nbsp;&nbsp;&nbsp;
+
             <IonRouterLink href='/strategy'>Strategy Research</IonRouterLink>
+
           </IonButtons>
         </IonToolbar>
       </IonHeader>
