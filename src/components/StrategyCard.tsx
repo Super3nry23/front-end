@@ -58,7 +58,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", short = "shor
                         onClick={() => setShowDetails(!showDetails)}
                         className="custom-button"
                     >
-                        {showDetails ? 'Nascondi dettagli' : 'Mostra dettagli'}
+                        {showDetails ? 'Hide details' : 'Show more'}
                         <IonIcon slot="end" style={{ fontSize: '28px' }} icon={showDetails ? chevronUpOutline : chevronDownOutline} />
                     </button>
                 </IonCol>

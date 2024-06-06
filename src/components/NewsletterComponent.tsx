@@ -41,11 +41,11 @@ const NewsletterComponent: React.FC = () => {
                     value={email}
                     onIonChange={e => setEmail(e.detail.value!)}
                     type="email"
-                    placeholder="Inserisci la tua email"
+                    placeholder="Enter your email"
                     className="newsletter-input" />
                 <IonButton expand="block" onClick={subscribeToNewsletter} className="newsletter-button">
                     <IonIcon slot="start" icon={mailOutline} />
-                    Iscriviti
+                    Subscribe
                 </IonButton>
             </div>
             <IonToast

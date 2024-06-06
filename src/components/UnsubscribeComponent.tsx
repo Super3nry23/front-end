@@ -21,13 +21,13 @@ const UnsubscribeComponent: React.FC = () => {
             const data = await response.json();
 
             if (data.result === 'SUCCESS') {
-                setToastMessage('Disiscrizione avvenuta con successo!');
+                setToastMessage('Unsubscribe successfully!');
             } else {
-                setToastMessage('Si è verificato un errore durante la disiscrizione.');
+                setToastMessage('An error occurred while unenrolling.');
             }
         } catch (error) {
-            console.error('Errore durante la disiscrizione:', error);
-            setToastMessage('Si è verificato un errore durante la disiscrizione.');
+            console.error('Error unsubscribing:', error);
+            setToastMessage('An error occurred while unenrolling.');
         }
         setShowToast(true);
     };
@@ -39,11 +39,11 @@ const UnsubscribeComponent: React.FC = () => {
                     value={email}
                     onIonChange={e => setEmail(e.detail.value!)}
                     type="email"
-                    placeholder="Inserisci la tua email per disiscriverti"
+                    placeholder="Enter your email to unsubscribe"
                     className="unsubscribe-input" />
                 <IonButton expand="block" onClick={unsubscribeFromNewsletter} className="unsubscribe-button">
                     <IonIcon slot="start" icon={mailOutline} />
-                    Disiscriviti
+                    Unsubscribe
                 </IonButton>
             </div>
             <IonToast
