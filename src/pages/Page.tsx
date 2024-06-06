@@ -10,6 +10,8 @@ import NewsletterComponent from '../components/NewsletterComponent';
 import { fetchGdpr, fetchIso, fetchOwasp, fetchPrinciple, fetchStrategyShort, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
 import { breakpointColumnsObj } from '../helpers/breakpoint';
 import Logo from '../components/Logo';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 const Page: React.FC = () => {
   const history = useHistory();
@@ -136,21 +138,7 @@ const Page: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>Pattern Research</IonTitle>
-          <IonButtons slot="end">
-            <IonRouterLink href='/newsletter'>Newsletter</IonRouterLink>
-            &nbsp;&nbsp;&nbsp;
-
-            <IonRouterLink href='/strategy'>Strategy Research</IonRouterLink>
-
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <Header />
 
       <IonContent fullscreen>
         <Logo nPattern={patterns.length} />
@@ -345,7 +333,8 @@ const Page: React.FC = () => {
             </Masonry>
           )}
         </div>
-        <NewsletterComponent></NewsletterComponent>
+        <NewsletterComponent />
+        <Footer />
       </IonContent>
 
     </IonPage >

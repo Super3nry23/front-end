@@ -20,6 +20,7 @@ import './Page.css';
 import { fetchGdpr, fetchIso, fetchOwasp, fetchPatternShort, fetchPrinciple, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
 import { breakpointColumnsObj } from '../helpers/breakpoint';
 import Logo from '../components/Logo';
+import Header from '../components/Header';
 
 const Strategy: React.FC = () => {
   // Fetch Data
@@ -158,22 +159,7 @@ const Strategy: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>Strategy Research</IonTitle>
-          <IonButtons slot="end">
-            <IonTitle style={{ color: 'yellow' }}>
-              <IonRouterLink href='/' style={{ color: 'inherit' }}>
-                Pattern Research
-              </IonRouterLink>
-            </IonTitle>
-
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <Header />
 
       <IonContent fullscreen>
         <Logo nPattern={patterns.length} />
