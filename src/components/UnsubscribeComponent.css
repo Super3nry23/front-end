@@ -36,6 +36,7 @@
     --border-width: 1px;
     --border-radius: 4px;
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --color: white;
 }
 
 /* Stili per il tema scuro */
@@ -47,14 +48,6 @@
         /* Testo bianco per il tema scuro */
         box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
         /* Ombra chiara per il tema scuro */
-    }
-
-    .unsubscribe-button {
-        --background: #4c8dff;
-        --background-activated: #3dc2ff;
-        --background-focused: #3dc2ff;
-        --background-hover: #3880ff;
-        --border-color: #4c8dff;
     }
 
     /* Qui puoi aggiungere altri stili specifici per il tema scuro se necessario */

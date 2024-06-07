@@ -1,12 +1,12 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
 :root {
-	--ion-color-strategy: #fa026e;
-	--ion-color-strategy-rgb: 250,2,110;
+	--ion-color-strategy: #ff9214;
+	--ion-color-strategy-rgb: 255, 146, 20;
 	--ion-color-strategy-contrast: #000000;
-	--ion-color-strategy-contrast-rgb: 0,0,0;
-	--ion-color-strategy-shade: #dc0261;
-	--ion-color-strategy-tint: #fb1b7d;
+	--ion-color-strategy-contrast-rgb: 0, 0, 0;
+	--ion-color-strategy-shade: #e08012;
+	--ion-color-strategy-tint: #ff9d2c;
 }
 
 .ion-color-strategy {

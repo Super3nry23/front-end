@@ -23,13 +23,13 @@ const NewsletterComponent: React.FC = () => {
             const data = await response.json();
 
             if (data.result === 'SUCCESS') {
-                setToastMessage('Iscrizione avvenuta con successo! Controlla la tua email per confermare.');
+                setToastMessage('Registration successful! Check your email to confirm.');
             } else {
-                setToastMessage('Si è verificato un errore durante l\'iscrizione.');
+                setToastMessage('An error occurred while registering.');
             }
         } catch (error) {
-            console.error('Errore durante l\'iscrizione:', error);
-            setToastMessage('Si è verificato un errore durante l\'iscrizione.');
+            console.error('Error during registration:', error);
+            setToastMessage('An error occurred while registering.');
         }
         setShowToast(true);
     };
