@@ -34,11 +34,6 @@ const Strategy: React.FC = () => {
   const [owaspList, setOwaspList] = useState<owasp[]>([]);
   const [weaknessList, setWeaknessList] = useState<weakness[]>([]);
   const [isoList, setIsoList] = useState<iso[]>([]);
-  const [mvcList] = useState<{ nameMVC: string }[]>([
-    { nameMVC: 'Model' },
-    { nameMVC: 'View' },
-    { nameMVC: 'Controller' },
-  ]);
   const [typeList] = useState<{ nameType: string }[]>([
     { nameType: 'Data_Oriented' },
     { nameType: 'Process_Oriented' },
@@ -51,7 +46,6 @@ const Strategy: React.FC = () => {
   const [selectedOwaspList, setSelectedOwaspList] = useState<any[]>([]);
   const [selectedWeaknessList, setSelectedWeaknessList] = useState<any[]>([]);
   const [selectedPrincipleList, setSelectedPrincipleList] = useState<any[]>([]);
-  const [selectedMVCList, setSelectedMVCList] = useState<{ nameMVC: string }[]>([]);
 
   // Gestione degli effetti, cambiamenti e funzioni
   useEffect(() => {
@@ -86,10 +80,9 @@ const Strategy: React.FC = () => {
           )
         )
       );
-      console.log(filtered);
       setFilteredStrategies(filtered);
     }
-  }, [selectedTypeList, searchTerm, data, selectedPatternList, selectedIsoList, selectedGdprList, selectedOwaspList, selectedWeaknessList, selectedPrincipleList, selectedMVCList]);
+  }, [selectedTypeList, searchTerm, data, selectedPatternList, selectedIsoList, selectedGdprList, selectedOwaspList, selectedWeaknessList, selectedPrincipleList]);
 
 
 
@@ -146,10 +139,6 @@ const Strategy: React.FC = () => {
 
   const handlePrinciple = (event: CustomEvent) => {
     setSelectedPrincipleList(event.detail.value);
-  };
-
-  const handleMVC = (event: CustomEvent) => {
-    setSelectedMVCList(event.detail.value);
   };
 
   // Render condizionale prima del return principale
@@ -221,7 +210,7 @@ const Strategy: React.FC = () => {
             </IonRow>
 
             <IonRow>
-              <IonCol size="12" size-md="4">
+              <IonCol size="12" size-md="6">
                 <IonList>
                   <IonItem>
                     <IonLabel>Select Principles</IonLabel>
@@ -242,7 +231,7 @@ const Strategy: React.FC = () => {
                 </IonList>
               </IonCol>
 
-              <IonCol size="12" size-md="4">
+              <IonCol size="12" size-md="6">
                 <IonList>
                   <IonItem>
                     <IonLabel>Select Weakness</IonLabel>
@@ -256,27 +245,6 @@ const Strategy: React.FC = () => {
                       {weaknessList.map((w) => (
                         <IonSelectOption key={w.id} value={w.id}>
                           {w.code + ": " + w.name}
-                        </IonSelectOption>
-                      ))}
-                    </IonSelect>
-                  </IonItem>
-                </IonList>
-              </IonCol>
-
-              <IonCol size="12" size-md="4">
-                <IonList>
-                  <IonItem>
-                    <IonLabel>Select MVC</IonLabel>
-                    <IonSelect
-                      value={selectedMVCList}
-                      multiple={true}
-                      cancelText="Annulla"
-                      okText="Conferma"
-                      onIonChange={handleMVC}
-                    >
-                      {mvcList.map((mvc) => (
-                        <IonSelectOption key={mvc.nameMVC} value={mvc.nameMVC}>
-                          {mvc.nameMVC}
                         </IonSelectOption>
                       ))}
                     </IonSelect>

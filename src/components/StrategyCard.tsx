@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
 import './Card.css'
-import { alertCircleOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
+import { alertCircleOutline, bulb, chevronDownOutline, chevronUpOutline, cog } from 'ionicons/icons';
 
 interface CardProps {
     name: string;
@@ -32,14 +32,17 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", short = "shor
                         <IonCardContent>{desc}</IonCardContent>
                     </IonItemDivider>
 
-                    <IonItemDivider>
-                        <h3>Patterns</h3>
+                    <IonList>
+                        <IonListHeader>
+                            <IonLabel><h2>Patterns:</h2></IonLabel>
+                        </IonListHeader>
                         {patterns.map((p, index) => (
-                            <IonChip color='success' key={index}>
-                                {p.attributes.name}
-                            </IonChip>
+                            <IonItem key={index}>
+                                <IonIcon icon={bulb} slot="start" color="success" />
+                                <IonChip color="success">{p.attributes.name}</IonChip>
+                            </IonItem>
                         ))}
-                    </IonItemDivider>
+                    </IonList>
 
                     <IonItemDivider>
                         <h3>Type</h3>
@@ -47,8 +50,6 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", short = "shor
                             {type}
                         </IonChip>
                     </IonItemDivider>
-
-
                 </IonList>
             )}
 
