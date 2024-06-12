@@ -35,8 +35,9 @@ const NewsletterComponent: React.FC = () => {
     };
 
     return (
-        <IonContent className="ion-padding newsletter-content">
-            <div className="newsletter-container">
+        <IonContent className="newsletter-content">
+            <div className="custom-grid">
+                <h3>Newsletter</h3>
                 <IonInput
                     value={email}
                     onIonChange={e => setEmail(e.detail.value!)}
@@ -48,6 +49,7 @@ const NewsletterComponent: React.FC = () => {
                     Subscribe
                 </IonButton>
             </div>
+
             <IonToast
                 isOpen={showToast}
                 onDidDismiss={() => setShowToast(false)}

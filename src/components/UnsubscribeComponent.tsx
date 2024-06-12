@@ -33,15 +33,16 @@ const UnsubscribeComponent: React.FC = () => {
     };
 
     return (
-        <IonContent className="ion-padding unsubscribe-content">
-            <div className="unsubscribe-container">
+        <IonContent className="newsletter-content">
+            <div className="custom-grid">
+                <h3>Newsletter</h3>
                 <IonInput
                     value={email}
                     onIonChange={e => setEmail(e.detail.value!)}
                     type="email"
                     placeholder="Enter your email to unsubscribe"
                     className="unsubscribe-input" />
-                <IonButton expand="block" onClick={unsubscribeFromNewsletter} className="unsubscribe-button">
+                <IonButton expand="block" onClick={unsubscribeFromNewsletter} fill="clear" className="primary">
                     <IonIcon slot="start" icon={mailOutline} />
                     Unsubscribe
                 </IonButton>

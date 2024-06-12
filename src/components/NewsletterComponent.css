@@ -22,7 +22,8 @@
 }
 
 .newsletter-input {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    border-radius: 5px;
 }
 
 .newsletter-button {
