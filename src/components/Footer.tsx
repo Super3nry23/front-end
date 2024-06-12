@@ -1,13 +1,14 @@
 import React from 'react';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton } from '@ionic/react';
 import './NewsletterComponent.css';
+import '../pages/Page.css';
 
-const CenteredCard = () => {
+const Footer = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30vh' }}>
-            <IonCard style={{ width: '80%', maxWidth: '800px', borderRadius: '15px' }}>
+            <IonCard className='custom-grid' style={{ width: '80%', maxWidth: '800px', borderRadius: '15px' }}>
                 <IonCardHeader>
-                    <IonCardTitle style={{ textAlign: 'center' }}>Help us improve our Privacy Knowledge Base</IonCardTitle>
+                    <IonCardTitle style={{ textAlign: 'center' }}>Help us <span style={{ color: 'var(--ion-color-primary)' }}>improve</span> our Privacy Knowledge Base</IonCardTitle>
                 </IonCardHeader>
 
                 <IonCardContent style={{ textAlign: 'center' }}>
@@ -21,4 +22,4 @@ const CenteredCard = () => {
     );
 };
 
-export default CenteredCard;
+export default Footer;

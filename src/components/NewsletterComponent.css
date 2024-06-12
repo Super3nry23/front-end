@@ -27,6 +27,7 @@
 
 .newsletter-button {
     --background: #3880ff;
+    --color: white;
     --background-activated: #3dc2ff;
     --background-focused: #3dc2ff;
     --background-hover: #4c8dff;
@@ -34,7 +35,7 @@
     --border-style: solid;
     --border-width: 1px;
     --border-radius: 4px;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Stili per il tema scuro */

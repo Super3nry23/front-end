@@ -144,7 +144,7 @@ const Page: React.FC = () => {
         <Logo nPattern={patterns.length} />
 
         <div className="container">
-          <IonGrid>
+          <IonGrid className='custom-grid'>
             <IonRow>
               <IonCol size="12" size-lg="6" offset-lg="3">
                 <IonSearchbar
