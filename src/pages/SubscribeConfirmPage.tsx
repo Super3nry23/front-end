@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { IonPage, IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
+import { IonPage, IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonLabel, IonText, IonCard, IonCol, IonButton, IonIcon, NavContext } from '@ionic/react';
 import { useLocation } from 'react-router';
 import axios from 'axios';
+import "./SubscribeConfirmPage.css"
+import { homeOutline } from 'ionicons/icons';
 
 // Funzione per effettuare la chiamata API al backend per confermare l'iscrizione o la disiscrizione
 const confirmSubscription = async (id: string, code: string, action: string) => {
@@ -19,33 +21,44 @@ const msgs= {
         ok:{
             title:"Subscription Successful",
             subtitle:"Welcome to our Newsletter",
+            img:"confirm.png"
         },
         fail:{
             title:"Subscription Unsuccessful",
             subtitle:"This veryfication link may be expired",
+            img:"fail.png"
         }
     },
     unsubscribe:{
         ok:{
             title:"Unubscription Successful",
             subtitle:"We will miss you",
+            img:"confirm.png"
         },
         fail:{
             title:"Unsubscription Unsuccessful",
             subtitle:"This veryfication link may be expired",
+            img:"fail.png"
         }
     },
     fail:{
         title:"Could not reach the server :-/",
         subtitle:"Please try again later",
+        img:"server_error.png",
     },
 
 }
 
 const NewsletterConfirmation: React.FC = () => {
-    const [confirmationMessage, setConfirmationMessage] = useState<{title:string,subtitle:string}|null>(null);
+    const [confirmationMessage, setConfirmationMessage] = useState<{title:string,subtitle:string,img:string}>
+    ({
+        title:"Awaiting server",
+        subtitle:"Please wait a moment...",
+        img:"wait.png"
+    });
     const { search } = useLocation();
     const query = new URLSearchParams(search);
+    const {navigate} = useContext(NavContext);
 
 
     useEffect(() => {
@@ -58,7 +71,7 @@ const NewsletterConfirmation: React.FC = () => {
         if (id && code && action) {
             confirmSubscription(id, code, action)
                 .then(response => {
-                    if(response.status == 200) setConfirmationMessage(msgs[action].ok)
+                    if(response.status == 200){setConfirmationMessage(msgs[action].ok)}
                     if(response.status == 400) setConfirmationMessage(msgs[action].fail)
                 })
                 .catch(err => {
@@ -68,7 +81,7 @@ const NewsletterConfirmation: React.FC = () => {
                 )
 
         } else {
-            setConfirmationMessage({title:'Missing Param',subtitle:' Link may Be Broken'});
+            setConfirmationMessage({title:'Missing Param',subtitle:' Link may Be Broken',img:"fail.png"});
         }
     }, [search]);
 
@@ -76,21 +89,29 @@ const NewsletterConfirmation: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Conferma Newsletter</IonTitle>
+                    <IonTitle>Confirm Newsletter</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding">
-                {confirmationMessage ? (
-                    <div>
-                        <h2>{confirmationMessage.title}</h2>
-                        <h3>{confirmationMessage.subtitle}</h3>
-                    </div>
-                ) : (
-                    <div>
-                         <h2>Awaiting server</h2>
-                         <h3>Please Wait a moment ...</h3>
-                    </div>
-                )}
+            <IonContent className='ion-padding'>
+                <IonCard className='card'>
+                    <IonRow className='ion-justify-content-center'>
+                        <img src={"../../resources/" + confirmationMessage.img} 
+                        style={{
+                            maxWidth: '250px',
+                            maxHeight: '250px',
+                        }}/>
+                    </IonRow>
+                    <IonText>
+                        <h1 className='ion-text-center'>{confirmationMessage.title}</h1>
+                        <h3 className='ion-text-center'>{confirmationMessage.subtitle}</h3>
+                    </IonText>
+                    <IonRow className='ion-justify-content-center'>
+                    <IonButton color='primary' onClick={() => navigate(".")}> 
+                        <IonIcon icon={homeOutline} slot='start'/>
+                        Back to Home 
+                    </IonButton>
+                    </IonRow>
+                </IonCard>
             </IonContent>
         </IonPage>
     );

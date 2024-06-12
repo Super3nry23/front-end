@@ -1,0 +1,7 @@
+ion-card.card{
+    --background: var(--ion-color-light);
+    width: fit-content;
+    padding: 30px;
+    margin: auto;
+    border-radius: 10px;
+}
