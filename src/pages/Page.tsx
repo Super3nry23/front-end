@@ -159,7 +159,6 @@ const Page: React.FC = () => {
               </IonCol>
             </IonRow>
 
-
             <IonRow>
               <IonCol size="12" size-md="6">
                 <IonList>

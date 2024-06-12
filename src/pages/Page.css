@@ -63,6 +63,8 @@ ion-content {
   border-radius: 15px;
   padding: 25px;
   margin: 25px;
+  margin-bottom: 50px;
+  border-radius: 15px;
 }
 
 ion-item {

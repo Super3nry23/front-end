@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <IonCard style={{ marginBottom: '50px', borderRadius: '15px' }} className='custom-grid'>
+    <IonCard className='custom-grid'>
       <IonCardHeader>
         <h4 className="ion-text-center ion-text-uppercase ion-h5" style={{ color: 'white' }}>{name}</h4>
       </IonCardHeader>
