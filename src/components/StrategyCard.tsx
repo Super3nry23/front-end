@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonListHeader, IonRow } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonGrid, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonRow } from '@ionic/react';
 import './Card.css'
-import { alertCircleOutline, bulb, chevronDownOutline, chevronUpOutline, cog } from 'ionicons/icons';
+import { bulb, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
 
 interface CardProps {
     name: string;
@@ -17,39 +17,52 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", short = "shor
     return (
         <IonCard style={{ marginBottom: '50px', borderRadius: '15px' }}>
             <IonCardHeader>
-                <IonCardTitle class="ion-text-center">{name}</IonCardTitle>
+                <h4 className="ion-text-center ion-text-uppercase ion-h5" style={{ color: 'white' }}>{name}</h4>
             </IonCardHeader>
 
-            <IonItemDivider>
-                <h3>Short</h3>
-                <IonCardContent>{short}</IonCardContent>
-            </IonItemDivider>
+            <IonCardHeader style={{ display: 'flex', justifyContent: 'center' }}>
+                <IonCardContent class="ion-text-center">{short}</IonCardContent>
+            </IonCardHeader>
 
             {showDetails && (
                 <IonList>
-                    <IonItemDivider>
-                        <h3>Description</h3>
-                        <IonCardContent>{desc}</IonCardContent>
-                    </IonItemDivider>
+                    <IonCardHeader>
+                        <IonCardContent class="ion-text-center">{desc}</IonCardContent>
+                    </IonCardHeader>
 
-                    <IonList>
-                        <IonListHeader>
-                            <IonLabel><h2>Patterns:</h2></IonLabel>
-                        </IonListHeader>
-                        {patterns.map((p, index) => (
-                            <IonItem key={index}>
-                                <IonIcon icon={bulb} slot="start" color="success" />
-                                <IonChip color="success">{p.attributes.name}</IonChip>
-                            </IonItem>
-                        ))}
+                    <IonList className='cardWeaknesses'>
+                        <IonGrid>
+                            <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
+                                <h4 style={{ color: 'white' }}>Patterns</h4>
+                            </IonRow>
+
+                            <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
+                                <IonCol size="12" style={{ display: 'inline-grid', justifyContent: 'center' }}>
+                                    {patterns.map((p, index) => (
+                                        <IonRow key={index} style={{ textAlign: 'left' }}>
+                                            <IonItem>
+                                                <IonIcon icon={bulb} slot="start" color="success" />
+                                                <IonChip color="success">{p.attributes.name}</IonChip>
+                                            </IonItem>
+                                        </IonRow>
+                                    ))}
+                                </IonCol>
+                            </IonRow>
+                        </IonGrid>
                     </IonList>
 
-                    <IonItemDivider>
-                        <h3>Type</h3>
-                        <IonChip color='dark'>
-                            {type}
-                        </IonChip>
-                    </IonItemDivider>
+                    <IonItem>
+                        <IonGrid>
+                            <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
+                                <h4 style={{ color: 'white' }}>Type</h4>
+                            </IonRow>
+                            <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
+                                <IonChip color='warning'>
+                                    {type}
+                                </IonChip>
+                            </IonRow>
+                        </IonGrid>
+                    </IonItem>
                 </IonList>
             )}
 
