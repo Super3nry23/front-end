@@ -143,7 +143,7 @@ const Strategy: React.FC = () => {
 
   // Render condizionale prima del return principale
   if (loading) return Array(10).fill().map((_, i) => <PlaceholderCard key={i} />);
-  if (error) return <p>Error :(</p>;
+  if (error) return <IonPage><p>Error :(</p></IonPage>;
 
 
   return (

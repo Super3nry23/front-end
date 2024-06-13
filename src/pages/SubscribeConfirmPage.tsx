@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { IonPage, IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonLabel, IonText, IonCard, IonCol, IonButton, IonIcon, NavContext } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { IonPage, IonContent, IonHeader, IonTitle, IonToolbar, IonRow, IonText, IonCard} from '@ionic/react';
 import { useLocation } from 'react-router';
 import axios from 'axios';
 import "./SubscribeConfirmPage.css"
-import { homeOutline } from 'ionicons/icons';
+import HomeButton from '../components/HomeButton';
+import FeatureCard from '../components/FeatureCard';
 
 // Funzione per effettuare la chiamata API al backend per confermare l'iscrizione o la disiscrizione
 const confirmSubscription = async (id: string, code: string, action: string) => {
@@ -58,8 +59,6 @@ const NewsletterConfirmation: React.FC = () => {
     });
     const { search } = useLocation();
     const query = new URLSearchParams(search);
-    const {navigate} = useContext(NavContext);
-
 
     useEffect(() => {
         const id = query.get('id');
@@ -93,7 +92,7 @@ const NewsletterConfirmation: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className='ion-padding'>
-                <IonCard className='card'>
+                <IonCard color="light" className='card'>
                     <IonRow className='ion-justify-content-center'>
                         <img src={"../../resources/" + confirmationMessage.img} 
                         style={{
@@ -106,10 +105,7 @@ const NewsletterConfirmation: React.FC = () => {
                         <h3 className='ion-text-center'>{confirmationMessage.subtitle}</h3>
                     </IonText>
                     <IonRow className='ion-justify-content-center'>
-                    <IonButton color='primary' onClick={() => navigate(".")}> 
-                        <IonIcon icon={homeOutline} slot='start'/>
-                        Back to Home 
-                    </IonButton>
+                        <HomeButton/>
                     </IonRow>
                 </IonCard>
             </IonContent>
