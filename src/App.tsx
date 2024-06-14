@@ -37,6 +37,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 import { Route } from 'react-router-dom';
+import Home from './pages/Home';
 
 setupIonicReact();
 
@@ -50,7 +51,8 @@ const App: React.FC = () => {
               <Route path="/strategy" component={Strategy} exact />
               <Route path="/newsletter" component={NewsletterPage} />
               <Route path="/NewsletterConfirmation" component={NewsletterConfirmation} />
-              <Route path="/" component={Page} exact />
+              <Route path="/pattern" component={Page} exact />
+              <Route path="/" component={Home} exact />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>

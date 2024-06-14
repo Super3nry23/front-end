@@ -37,7 +37,7 @@ const NewsletterComponent: React.FC = () => {
     return (
         <IonContent className="newsletter-content">
             <div className="custom-grid">
-                <h3>Newsletter</h3>
+                <h3>Newsletter Subscription</h3>
                 <IonInput
                     value={email}
                     onIonChange={e => setEmail(e.detail.value!)}

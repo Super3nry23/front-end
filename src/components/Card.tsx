@@ -26,7 +26,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
   return (
     <IonCard className='custom-grid'>
       <IonCardHeader>
-        <h4 className="ion-text-center ion-text-uppercase ion-h5" style={{ color: 'white' }}>{name}</h4>
+        <h4 className="ion-text-center ion-text-uppercase ion-h5 card-oncello">{name}</h4>
       </IonCardHeader>
 
       <IonCardHeader style={{ display: 'flex', justifyContent: 'center' }}>
@@ -42,7 +42,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
           <IonList className='cardWeaknesses'>
             <IonGrid>
               <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
-                <h4 style={{ color: 'white' }}>Weaknesses</h4>
+                <h4 className='card-oncello'>Weaknesses</h4>
               </IonRow>
 
               <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
@@ -77,7 +77,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", contex = "con
             <IonList>
               <IonGrid>
                 <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
-                  <h4 style={{ color: 'white' }}>Examples</h4>
+                  <h4 className='card-oncello'>Examples</h4>
                 </IonRow>
                 <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
                   {examples.map((ex, index) => (

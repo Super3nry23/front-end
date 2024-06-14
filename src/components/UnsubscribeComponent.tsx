@@ -21,7 +21,7 @@ const UnsubscribeComponent: React.FC = () => {
             const data = await response.json();
 
             if (data.result === 'SUCCESS') {
-                setToastMessage('Unsubscribe successfully!');
+                setToastMessage('Unsubscribe successfully! Check your email to confirm.');
             } else {
                 setToastMessage('An error occurred while unenrolling.');
             }
@@ -35,7 +35,7 @@ const UnsubscribeComponent: React.FC = () => {
     return (
         <IonContent className="newsletter-content">
             <div className="custom-grid">
-                <h3>Newsletter</h3>
+                <h3>Newsletter Unsubscription</h3>
                 <IonInput
                     value={email}
                     onIonChange={e => setEmail(e.detail.value!)}

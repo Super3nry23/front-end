@@ -331,8 +331,6 @@ const Page: React.FC = () => {
             </Masonry>
           )}
         </div>
-        <NewsletterComponent />
-        <Footer />
       </IonContent>
 
     </IonPage >

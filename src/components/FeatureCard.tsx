@@ -3,6 +3,7 @@ import HomeButton from "./HomeButton";
 import "./FeatureCard.css"
 import { useContext } from "react";
 import { arrowForwardOutline } from "ionicons/icons";
+import '../pages/Page.css';
 
 interface props{
     img:string,
@@ -18,7 +19,7 @@ const FeatureCard : React.FC<props> = ({img, color="light", link, button = "Go T
     const {navigate} = useContext(NavContext);
 
     return (
-        <IonCard color={color} className="featureCard">
+        <IonCard color={color} className='custom-grid'>
             <img src={img} className="image"
             style={{
                 maxWidth: '250px',
@@ -30,13 +31,13 @@ const FeatureCard : React.FC<props> = ({img, color="light", link, button = "Go T
             <IonRow className="ion-justify-content-center">
                 {
                     !external ? (
-                        <IonButton onClick={() => navigate(link)}> 
+                        <IonButton onClick={() => navigate(link)} style={{ color: 'white'}}> 
                             <IonIcon icon={arrowForwardOutline} slot="start"/>
                             {button} 
                         </IonButton>
                     ) : (
-                        <a href={link}>
-                            <IonButton> 
+                        <a href={link} target="_blank">
+                            <IonButton style={{ color: 'white'}}> 
                                 <IonIcon icon={arrowForwardOutline} slot="start"/>
                                 {button}
                             </IonButton>

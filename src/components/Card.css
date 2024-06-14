@@ -17,3 +17,7 @@
 .custom-button:hover {
     background-color: #3171e0;
 }
+
+.card-oncello{
+    color: var(--ion-color-dark);
+}
