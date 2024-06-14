@@ -19,7 +19,7 @@ const FeatureCard : React.FC<props> = ({img, color="light", link, button = "Go T
 
     return (
         <IonCard color={color} className="featureCard">
-            <img src={img} className="ion-float-left"
+            <img src={img} className="image"
             style={{
                 maxWidth: '250px',
                 maxHeight: '250px',

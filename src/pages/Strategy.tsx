@@ -148,7 +148,7 @@ const Strategy: React.FC = () => {
 
   return (
     <IonPage>
-      <Header />
+      <Header pageTitle='Strategy Research'/>
 
       <IonContent fullscreen>
         <Logo nPattern={patterns.length} />
@@ -327,7 +327,7 @@ const Strategy: React.FC = () => {
             className="masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
-            {filteredStrategies.length >= 0 ? (
+            {
               filteredStrategies.map((s) => (
                 <div key={s.id}>
                   <StrategyCard
@@ -339,19 +339,7 @@ const Strategy: React.FC = () => {
                   />
                 </div>
               ))
-            ) : (
-              data.strategies.data.map((s) => (
-                <div key={s.id}>
-                  <StrategyCard
-                    name={s.attributes.name}
-                    short={s.attributes.short}
-                    desc={s.attributes.description}
-                    type={s.attributes.type}
-                    patterns={s.attributes.patterns.data}
-                  />
-                </div>
-              ))
-            )}
+            }
           </Masonry>
         </div>
       </IonContent>

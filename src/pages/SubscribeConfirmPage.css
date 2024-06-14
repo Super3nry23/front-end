@@ -1,6 +1,9 @@
 ion-card.card{
     width: fit-content;
-    padding: 30px;
     margin: auto;
-    border-radius: 10px;
+    margin-bottom: 50px;
+    box-shadow: 0 6px 16px rgb(0, 0, 0);
+    transform: translateY(-2px);
+    border-radius: 15px;
+    padding: 25px;
 }

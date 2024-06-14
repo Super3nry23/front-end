@@ -14,8 +14,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 const Page: React.FC = () => {
-  const history = useHistory();
-
+  
   const [searchText, setSearchText] = useState<string>('');
   const [patterns, setPatterns] = useState<any[]>([]);
   const [gdprList, setGdprList] = useState<gdpr[]>([]);
@@ -138,7 +137,7 @@ const Page: React.FC = () => {
 
   return (
     <IonPage>
-      <Header />
+      <Header pageTitle='Pattern Research'/>
 
       <IonContent fullscreen>
         <Logo nPattern={patterns.length} />

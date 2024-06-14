@@ -1,7 +1,7 @@
 ion-content {
   --offset-bottom: auto !important;
   --overflow: auto;
-  background: var(--ion-toolbar-background, var(--ion-background-color, #000000)) !important;
+  background: var(--ion-toolbar-background, var(--ion-background-color, #e6e6e6)) !important;
   overflow: auto;
 
   &::-webkit-scrollbar {
@@ -64,7 +64,6 @@ ion-content {
   padding: 25px;
   margin: 25px;
   margin-bottom: 50px;
-  border-radius: 15px;
 }
 
 ion-item {

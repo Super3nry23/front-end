@@ -8,7 +8,7 @@ import Header from '../components/Header';
 const SubscriptionPage: React.FC = () => {
     return (
         <IonPage>
-            <Header />
+            <Header pageTitle='Newsletter'/>
             <IonContent className="subscription-page-content">
                 <div className="subscription-container">
                     <NewsletterComponent />

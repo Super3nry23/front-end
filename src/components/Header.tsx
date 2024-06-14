@@ -1,25 +1,19 @@
 import React from 'react';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonRouterLink } from '@ionic/react';
+import HomeButton from './HomeButton';
 
-const Header = () => {
+const Header : React.FC <{pageTitle:string}>= ({pageTitle = "Title"}) => {
     return (
         <IonHeader>
             <IonToolbar>
                 <IonButtons slot="start">
                     <IonMenuButton />
                 </IonButtons>
-                <IonTitle style={{ color: '#FFFFFF' }}>
-                    <IonRouterLink href='/' style={{ color: 'inherit' }}>
-                        Pattern Research
-                    </IonRouterLink>
+                <IonTitle>
+                    {pageTitle}
                 </IonTitle>
                 <IonButtons slot="end">
-                    <IonTitle><IonRouterLink href='/newsletter'>Newsletter</IonRouterLink></IonTitle>
-                    <IonTitle style={{ color: '#FFFF00' }}>
-                        <IonRouterLink href='/strategy' style={{ color: 'inherit' }}>
-                            Strategy Research
-                        </IonRouterLink>
-                    </IonTitle>
+                    <HomeButton/>
                 </IonButtons>
             </IonToolbar>
         </IonHeader>
