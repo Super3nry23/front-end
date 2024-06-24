@@ -17,7 +17,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", short = "shor
     return (
         <IonCard className='custom-grid'>
             <IonCardHeader>
-                <h4 className="ion-text-center ion-text-uppercase ion-h5" style={{ color: 'white' }}>{name}</h4>
+                <h4 className="ion-text-center ion-text-uppercase ion-h5 card-oncello" >{name}</h4>
             </IonCardHeader>
 
             <IonCardHeader style={{ display: 'flex', justifyContent: 'center' }}>
@@ -33,7 +33,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", short = "shor
                     <IonList className='cardWeaknesses'>
                         <IonGrid>
                             <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
-                                <h4 style={{ color: 'white' }}>Patterns</h4>
+                                <h4 className='card-oncello'>Patterns</h4>
                             </IonRow>
 
                             <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
@@ -54,7 +54,7 @@ const Card: React.FC<CardProps> = ({ name = "name", desc = "desc", short = "shor
                     <IonItem>
                         <IonGrid>
                             <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
-                                <h4 style={{ color: 'white' }}>Type</h4>
+                                <h4 className='card-oncello'>Type</h4>
                             </IonRow>
                             <IonRow style={{ display: 'flex', justifyContent: 'center' }}>
                                 <IonChip color='warning'>

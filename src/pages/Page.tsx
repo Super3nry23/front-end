@@ -4,13 +4,9 @@ import axios from 'axios';
 import Card from '../components/Card';
 import './Page.css';
 import Masonry from 'react-masonry-css';
-import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import NewsletterComponent from '../components/NewsletterComponent';
 import { fetchGdpr, fetchIso, fetchOwasp, fetchPrinciple, fetchStrategyShort, fetchWeakness, gdpr, iso, owasp, principle, strategy, weakness } from '../helpers/fetchFormData';
 import { breakpointColumnsObj } from '../helpers/breakpoint';
 import Logo from '../components/Logo';
-import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 const Page: React.FC = () => {
